@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Vikailmoitukset &amp; korjaukset | Sähkötarkastukset Kallio</title>
+  <meta name="description" content="Nopea vaste sähkövikoihin Varsinais-Suomessa. Vikailmoitukset ja sähkökorjaukset ammattitaidolla — soita, niin tulemme.">
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #111111;
+      color: #ffffff;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    /* NAV */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background-color: #111111;
+      border-bottom: 1px solid #333333;
+      padding: 1rem 1.5rem;
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-logo {
+      font-size: 1.125rem;
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    .nav-links {
+      display: none;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: #a3a3a3;
+      transition: color 0.2s;
+      font-size: 0.9375rem;
+    }
+
+    .nav-links a:hover {
+      color: #FF6B00;
+    }
+
+    .hamburger {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 8px;
+      min-width: 44px;
+      min-height: 44px;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .hamburger span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background-color: #ffffff;
+      transition: transform 0.3s, opacity 0.3s;
+    }
+
+    .hamburger.active span:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 5px);
+    }
+
+    .hamburger.active span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .hamburger.active span:nth-child(3) {
+      transform: rotate(-45deg) translate(5px, -5px);
+    }
+
+    .mobile-menu {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background-color: #111111;
+      border-bottom: 1px solid #333333;
+      padding: 1rem 1.5rem;
+    }
+
+    .mobile-menu.active {
+      display: block;
+    }
+
+    .mobile-menu a {
+      display: block;
+      padding: 0.75rem 0;
+      color: #a3a3a3;
+      font-size: 1rem;
+      min-height: 44px;
+      display: flex;
+      align-items: center;
+    }
+
+    .mobile-menu a:hover {
+      color: #FF6B00;
+    }
+
+    /* EMERGENCY BANNER */
+    .emergency-banner {
+      background-color: #FF6B00;
+      padding: 1rem 1.5rem;
+      text-align: center;
+    }
+
+    .emergency-banner p {
+      font-weight: 600;
+      font-size: 1rem;
+    }
+
+    .emergency-banner a {
+      text-decoration: underline;
+    }
+
+    /* PAGE HEADER */
+    .page-header {
+      padding: 3rem 1.5rem 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.875rem;
+      color: #a3a3a3;
+      margin-bottom: 1.5rem;
+    }
+
+    .breadcrumb a:hover {
+      color: #FF6B00;
+    }
+
+    .breadcrumb svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .page-header h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 1rem;
+    }
+
+    .page-header .lead {
+      font-size: 1.125rem;
+      color: #a3a3a3;
+      max-width: 700px;
+    }
+
+    /* CONTENT */
+    .content {
+      padding: 2rem 1.5rem 4rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .content-grid {
+      display: grid;
+      gap: 3rem;
+    }
+
+    .content-section {
+      background-color: #1E1E1E;
+      border-radius: 12px;
+      padding: 2rem;
+      border-left: 4px solid #FF6B00;
+    }
+
+    .content-section h2 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: #ffffff;
+    }
+
+    .content-section h3 {
+      font-size: 1.125rem;
+      font-weight: 600;
+      margin: 1.5rem 0 0.75rem;
+      color: #FF6B00;
+    }
+
+    .content-section p {
+      color: #a3a3a3;
+      margin-bottom: 1rem;
+      line-height: 1.7;
+    }
+
+    .content-section ul {
+      list-style: none;
+      margin: 1rem 0;
+    }
+
+    .content-section li {
+      position: relative;
+      padding-left: 1.5rem;
+      margin-bottom: 0.75rem;
+      color: #a3a3a3;
+    }
+
+    .content-section li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.6rem;
+      width: 8px;
+      height: 8px;
+      background-color: #FF6B00;
+      border-radius: 50%;
+    }
+
+    .highlight-box {
+      background-color: #252525;
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+    }
+
+    .highlight-box strong {
+      color: #FF6B00;
+    }
+
+    .warning-box {
+      background-color: #3d1a1a;
+      border: 1px solid #5a2d2d;
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+    }
+
+    .warning-box strong {
+      color: #ff6b6b;
+    }
+
+    .warning-box p {
+      color: #e0a0a0;
+    }
+
+    /* FAULT TYPES GRID */
+    .fault-grid {
+      display: grid;
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+
+    .fault-item {
+      background-color: #252525;
+      border-radius: 8px;
+      padding: 1.25rem;
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+
+    .fault-icon {
+      flex-shrink: 0;
+      width: 40px;
+      height: 40px;
+      background-color: #FF6B00;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .fault-icon svg {
+      width: 20px;
+      height: 20px;
+      color: #ffffff;
+    }
+
+    .fault-content h4 {
+      color: #ffffff;
+      font-size: 1rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .fault-content p {
+      margin-bottom: 0;
+      font-size: 0.9375rem;
+    }
+
+    /* CTA */
+    .cta-section {
+      background-color: #1E1E1E;
+      border-radius: 12px;
+      padding: 2.5rem 2rem;
+      text-align: center;
+      margin-top: 2rem;
+    }
+
+    .cta-section h2 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .cta-section p {
+      color: #a3a3a3;
+      margin-bottom: 1.5rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem 2rem;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+      min-height: 44px;
+      border: none;
+    }
+
+    .btn-primary {
+      background-color: #FF6B00;
+      color: #ffffff;
+    }
+
+    .btn-primary:hover {
+      background-color: #e55f00;
+    }
+
+    .btn-outline {
+      background-color: transparent;
+      color: #ffffff;
+      border: 2px solid #333333;
+      margin-left: 1rem;
+    }
+
+    .btn-outline:hover {
+      border-color: #FF6B00;
+      color: #FF6B00;
+    }
+
+    .cta-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .phone-cta {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      background-color: #FF6B00;
+      color: #ffffff;
+      padding: 1.25rem 2rem;
+      border-radius: 8px;
+      font-size: 1.25rem;
+      font-weight: 700;
+      min-height: 56px;
+      transition: background-color 0.2s;
+    }
+
+    .phone-cta:hover {
+      background-color: #e55f00;
+    }
+
+    .phone-cta svg {
+      width: 24px;
+      height: 24px;
+    }
+
+    /* FOOTER */
+    .footer {
+      padding: 2rem 1.5rem;
+      background-color: #0a0a0a;
+      border-top: 1px solid #222222;
+      text-align: center;
+    }
+
+    .footer p {
+      color: #666666;
+      font-size: 0.875rem;
+    }
+
+    /* DESKTOP */
+    @media (min-width: 768px) {
+      .nav-links {
+        display: flex;
+      }
+
+      .hamburger {
+        display: none;
+      }
+
+      .page-header {
+        padding: 4rem 2rem 3rem;
+      }
+
+      .page-header h1 {
+        font-size: 2.75rem;
+      }
+
+      .page-header .lead {
+        font-size: 1.25rem;
+      }
+
+      .content {
+        padding: 2rem 2rem 5rem;
+      }
+
+      .content-grid {
+        grid-template-columns: 2fr 1fr;
+        gap: 2rem;
+      }
+
+      .content-main {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+      }
+
+      .content-sidebar {
+        position: sticky;
+        top: 100px;
+        height: fit-content;
+      }
+
+      .fault-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .cta-section {
+        padding: 3rem;
+      }
+
+      .cta-buttons {
+        flex-direction: row;
+      }
+
+      .btn-outline {
+        margin-left: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- EMERGENCY BANNER -->
+  <div class="emergency-banner">
+    <p>Sähkövika? Soita heti: <a href="tel:+358505287158">+358 505 287 158</a></p>
+  </div>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">Sähkötarkastukset Kallio</a>
+      <ul class="nav-links">
+        <li><a href="index.html#services">Palvelut</a></li>
+        <li><a href="index.html#why-us">Meistä</a></li>
+        <li><a href="index.html#contact">Yhteystiedot</a></li>
+      </ul>
+      <button class="hamburger" aria-label="Avaa valikko" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div class="mobile-menu">
+      <a href="index.html#services">Palvelut</a>
+      <a href="index.html#why-us">Meistä</a>
+      <a href="index.html#contact">Yhteystiedot</a>
+    </div>
+  </nav>
+
+  <!-- PAGE HEADER -->
+  <header class="page-header">
+    <nav class="breadcrumb">
+      <a href="index.html">Etusivu</a>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="m9 18 6-6-6-6"/>
+      </svg>
+      <span>Vikailmoitukset &amp; korjaukset</span>
+    </nav>
+    <h1>Vikailmoitukset &amp; korjaukset</h1>
+    <p class="lead">Nopea vaste sähkövikoihin koko Varsinais-Suomessa. Kun sähköt eivät toimi, soita — tulemme paikalle ja selvitämme ongelman.</p>
+  </header>
+
+  <!-- CONTENT -->
+  <main class="content">
+    <div class="content-grid">
+      <div class="content-main">
+        <section class="content-section">
+          <h2>Nopea apu sähköongelmiin</h2>
+          <p>Sähkövika voi pysäyttää arjen hetkessä. Olipa kyseessä yksittäinen pistorasia, joka ei toimi, vai koko asunnon sähköt, autamme selvittämään ongelman nopeasti ja turvallisesti.</p>
+          <p>Varsinais-Suomessa on paljon vanhempaa rakennuskantaa, jossa sähköasennukset voivat olla vuosikymmeniä vanhoja. Vanhat asennukset ovat alttiimpia vioille, ja niiden korjaaminen vaatii ammattitaitoa ja kokemusta.</p>
+          
+          <div class="warning-box">
+            <p><strong>Turvallisuushuomio:</strong> Älä koskaan yritä korjata sähkövikoja itse. Sähkötyöt on aina jätettävä ammattilaiselle — virheellinen korjaus voi aiheuttaa hengenvaaraa tai tulipalon.</p>
+          </div>
+        </section>
+
+        <section class="content-section">
+          <h2>Yleisimmät sähköviat</h2>
+          <p>Autamme kaikenlaisissa sähköongelmissa. Tässä tyypillisimpiä vikatilanteita:</p>
+          
+          <div class="fault-grid">
+            <div class="fault-item">
+              <div class="fault-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                </svg>
+              </div>
+              <div class="fault-content">
+                <h4>Sulakkeen laukeaminen</h4>
+                <p>Sulake laukeaa toistuvasti tai ei pysy päällä.</p>
+              </div>
+            </div>
+            <div class="fault-item">
+              <div class="fault-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"/>
+                  <line x1="12" y1="8" x2="12" y2="12"/>
+                  <line x1="12" y1="16" x2="12.01" y2="16"/>
+                </svg>
+              </div>
+              <div class="fault-content">
+                <h4>Vikavirtasuojan laukeaminen</h4>
+                <p>Vikavirtasuoja katkaisee sähköt toistuvasti.</p>
+              </div>
+            </div>
+            <div class="fault-item">
+              <div class="fault-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="2" y="7" width="20" height="14" rx="2"/>
+                  <path d="M16 7V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v3"/>
+                </svg>
+              </div>
+              <div class="fault-content">
+                <h4>Pistorasian vika</h4>
+                <p>Pistorasia ei toimi tai on vaurioitunut.</p>
+              </div>
+            </div>
+            <div class="fault-item">
+              <div class="fault-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M9 18V5l12-2v13"/>
+                  <circle cx="6" cy="18" r="3"/>
+                  <circle cx="18" cy="16" r="3"/>
+                </svg>
+              </div>
+              <div class="fault-content">
+                <h4>Valaistuksen ongelmat</h4>
+                <p>Valot välkkyvät, eivät syty tai sammuvat itsestään.</p>
+              </div>
+            </div>
+            <div class="fault-item">
+              <div class="fault-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M4 4h16v16H4z"/>
+                  <path d="M9 9h6v6H9z"/>
+                </svg>
+              </div>
+              <div class="fault-content">
+                <h4>Sähkökeskuksen viat</h4>
+                <p>Keskuksesta kuuluu ääniä tai siinä on näkyviä vaurioita.</p>
+              </div>
+            </div>
+            <div class="fault-item">
+              <div class="fault-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+                </svg>
+              </div>
+              <div class="fault-content">
+                <h4>Lämmitysongelmat</h4>
+                <p>Sähkölämmitys ei toimi oikein.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="content-section">
+          <h2>Näin toimimme</h2>
+          <p>Kun soitat meille vikatilanteessa:</p>
+          <ul>
+            <li><strong>Kartoitamme tilanteen</strong> — Kysymme puhelimessa vian oireista, jotta osaamme varautua oikein.</li>
+            <li><strong>Sovimme aikataulun</strong> — Kiireellisissä tapauksissa tulemme mahdollisimman pian, yleensä saman päivän aikana.</li>
+            <li><strong>Paikannamme vian</strong> — Käytämme ammattilaitteita vian paikantamiseen tehokkaasti.</li>
+            <li><strong>Korjaamme ongelman</strong> — Mikäli mahdollista, korjaamme vian heti. Laajemmista korjauksista annamme tarjouksen.</li>
+            <li><strong>Dokumentoimme työn</strong> — Saat aina selkeän kuvauksen tehdyistä töistä.</li>
+          </ul>
+        </section>
+
+        <section class="content-section">
+          <h2>Milloin on hätätilanne?</h2>
+          <p>Ota välittömästi yhteyttä (tai soita hätänumeroon 112), jos:</p>
+          <ul>
+            <li>Näet kipinöintiä tai savua sähkölaitteessa tai -keskuksessa</li>
+            <li>Haistaat palaneen käryä sähkölaitteen lähellä</li>
+            <li>Sähkölaitteeseen on päässyt vettä</li>
+            <li>Sähköisku on tapahtunut</li>
+          </ul>
+          <div class="highlight-box">
+            <p><strong>Muista:</strong> Hätätilanteessa voit aina katkaista sähköt pääkytkimestä. Pääkytkin sijaitsee yleensä sähkökeskuksessa.</p>
+          </div>
+        </section>
+      </div>
+
+      <aside class="content-sidebar">
+        <section class="content-section">
+          <h2>Soita heti</h2>
+          <a href="tel:+358505287158" class="phone-cta">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+            </svg>
+            +358 505 287 158
+          </a>
+          <p style="margin-top: 1rem; text-align: center; color: #a3a3a3; font-size: 0.9375rem;">Vastaamme nopeasti — yleensä saman päivän aikana.</p>
+        </section>
+
+        <section class="content-section">
+          <h2>Palvelualue</h2>
+          <p>Tulemme vikakeikalle koko Varsinais-Suomeen:</p>
+          <ul>
+            <li>Turku ja lähikunnat</li>
+            <li>Salo ja ympäristö</li>
+            <li>Loimaa ja seutu</li>
+            <li>Naantali, Raisio, Kaarina</li>
+            <li>Parainen ja saaristo</li>
+          </ul>
+        </section>
+
+        <section class="content-section">
+          <h2>Hinnoittelu</h2>
+          <p>Vikakeikan hinta koostuu työ- ja matkakuluista sekä mahdollisista materiaaleista. Annamme aina arvion ennen työn aloittamista.</p>
+        </section>
+      </aside>
+    </div>
+
+    <section class="cta-section">
+      <h2>Sähkövika vaivaa?</h2>
+      <p>Soita meille — selvitämme ongelman ja korjaamme sen ammattitaidolla.</p>
+      <div class="cta-buttons">
+        <a href="tel:+358505287158" class="btn btn-primary">Soita: +358 505 287 158</a>
+        <a href="index.html#contact" class="btn btn-outline">Lähetä viesti</a>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <p>Sähkötarkastukset Kallio | Y-tunnus: 3569055-8 | © 2026</p>
+  </footer>
+
+  <script>
+    const hamburger = document.querySelector('.hamburger');
+    const mobileMenu = document.querySelector('.mobile-menu');
+
+    hamburger.addEventListener('click', () => {
+      const isActive = hamburger.classList.toggle('active');
+      mobileMenu.classList.toggle('active');
+      hamburger.setAttribute('aria-expanded', isActive);
+    });
+  </script>
+</body>
+</html>

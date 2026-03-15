@@ -243,6 +243,20 @@
       line-height: 1.5;
     }
 
+    .service-card:hover {
+      border-top-color: #FF6B00;
+      background-color: #252525;
+    }
+
+    a.service-card {
+      display: block;
+      transition: background-color 0.2s, transform 0.2s;
+    }
+
+    a.service-card:hover {
+      transform: translateY(-4px);
+    }
+
     /* WHY US */
     .why-us {
       padding: 4rem 1.5rem;
@@ -498,27 +512,27 @@
     <div class="services-container">
       <h2 class="section-title">Palvelumme</h2>
       <div class="services-grid">
-        <div class="service-card">
+        <a href="sahkotarkastukset.html" class="service-card">
           <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
           </svg>
           <h3>Sähkötarkastukset</h3>
           <p>Lakisääteiset tarkastukset asunnoille, liikekiinteistöille ja teollisuudelle.</p>
-        </div>
-        <div class="service-card">
+        </a>
+        <a href="kayttoonottotarkastukset.html" class="service-card">
           <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
           </svg>
           <h3>Käyttöönottotarkastukset</h3>
           <p>Uudis- ja saneerauskohteet — varmistamme turvallisen käyttöönoton.</p>
-        </div>
-        <div class="service-card">
+        </a>
+        <a href="vikailmoitukset.html" class="service-card">
           <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
           </svg>
           <h3>Vikailmoitukset &amp; korjaukset</h3>
           <p>Nopea vaste sähkövikoihin. Soita, niin tulemme.</p>
-        </div>
+        </a>
       </div>
     </div>
   </section>
