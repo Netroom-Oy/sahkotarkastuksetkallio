@@ -1,18 +1,24 @@
 <!DOCTYPE html>
 <html lang="fi">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Sähkötarkastukset Kallio | Luotettavat sähkötarkastukset Varsinais-Suomessa</title>
-  <meta name="description" content="Sähkötarkastukset Kallio tarjoaa luotettavat sähkötarkastukset nopeasti ja ammattitaidolla. Palvelemme koko Varsinais-Suomea.">
-  
+  <meta name="description"
+    content="Sähkötarkastukset Kallio tarjoaa luotettavat sähkötarkastukset nopeasti ja ammattitaidolla. Palvelemme koko Varsinais-Suomea.">
+
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-  
+  <link
+    href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+
   <style>
-    *, *::before, *::after {
+    *,
+    *::before,
+    *::after {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
@@ -57,7 +63,7 @@
       position: absolute;
       inset: 0;
       opacity: 0.04;
-      background-image: 
+      background-image:
         linear-gradient(var(--accent-yellow) 1px, transparent 1px),
         linear-gradient(90deg, var(--accent-yellow) 1px, transparent 1px),
         linear-gradient(var(--accent-yellow) 0.5px, transparent 0.5px),
@@ -80,22 +86,25 @@
       left: 0;
       width: 200%;
       height: 100%;
-      background: linear-gradient(
-        90deg,
-        transparent 0%,
-        transparent 45%,
-        var(--accent-yellow) 50%,
-        transparent 55%,
-        transparent 100%
-      );
+      background: linear-gradient(90deg,
+          transparent 0%,
+          transparent 45%,
+          var(--accent-yellow) 50%,
+          transparent 55%,
+          transparent 100%);
       opacity: 0.03;
       animation: electricityMove 8s linear infinite;
       pointer-events: none;
     }
 
     @keyframes electricityMove {
-      0% { transform: translateX(-50%); }
-      100% { transform: translateX(0%); }
+      0% {
+        transform: translateX(-50%);
+      }
+
+      100% {
+        transform: translateX(0%);
+      }
     }
 
     /* NAV */
@@ -287,15 +296,35 @@
     }
 
     /* Words inside the headline row */
-    .hero-headline-row .word:nth-child(1) { animation-delay: 0.1s; }
-    .hero-headline-row .word:nth-child(3) { animation-delay: 0.3s; }
+    .hero-headline-row .word:nth-child(1) {
+      animation-delay: 0.1s;
+    }
+
+    .hero-headline-row .word:nth-child(3) {
+      animation-delay: 0.3s;
+    }
+
     /* Battery icon */
-    .hero-headline-row .battery-icon { animation-delay: 0.25s; }
+    .hero-headline-row .battery-icon {
+      animation-delay: 0.25s;
+    }
+
     /* Words after the headline row (direct children of h1) */
-    .hero h1 > .word:nth-child(3) { animation-delay: 0.35s; }
-    .hero h1 > .word:nth-child(4) { animation-delay: 0.45s; }
-    .hero h1 > .word:nth-child(5) { animation-delay: 0.55s; }
-    .hero h1 > .word:nth-child(6) { animation-delay: 0.65s; }
+    .hero h1>.word:nth-child(3) {
+      animation-delay: 0.35s;
+    }
+
+    .hero h1>.word:nth-child(4) {
+      animation-delay: 0.45s;
+    }
+
+    .hero h1>.word:nth-child(5) {
+      animation-delay: 0.55s;
+    }
+
+    .hero h1>.word:nth-child(6) {
+      animation-delay: 0.65s;
+    }
 
     .hero h1 .highlight {
       color: var(--accent-yellow);
@@ -337,7 +366,8 @@
     .battery-icon .battery-body::after {
       content: '';
       position: absolute;
-      left: calc(100% + 3px); /* clear the 3px right border */
+      left: calc(100% + 3px);
+      /* clear the 3px right border */
       top: 50%;
       transform: translateY(-50%);
       width: 0.12em;
@@ -734,7 +764,7 @@
       margin-bottom: 1rem;
     }
 
-    .contact-info > p {
+    .contact-info>p {
       color: var(--text-muted);
       margin-bottom: 2rem;
       font-size: 1.0625rem;
@@ -1018,6 +1048,7 @@
     }
   </style>
 </head>
+
 <body>
   <!-- NAV -->
   <nav class="nav" id="nav">
@@ -1053,8 +1084,9 @@
     <div class="electricity-line"></div>
     <div class="hero-content">
       <div class="hero-badge">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round">
+          <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
         </svg>
         Varsinais-Suomen luotetuin sähkötarkastaja
       </div>
@@ -1063,7 +1095,7 @@
           <span class="battery-icon" aria-hidden="true">
             <span class="battery-body">
               <svg class="battery-bolt" viewBox="0 0 24 24" fill="#F5C400" stroke="none">
-                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
               </svg>
             </span>
           </span>
@@ -1076,12 +1108,14 @@
         <span class="word">ja</span>
         <span class="word">ammattitaidolla</span>
       </h1>
-      <p class="hero-subtext">Palvelemme koko Varsinais-Suomea. Yli vuosikymmenen kokemus, nopea vaste ja ammattitaitoinen tekijä — joka kerta.</p>
+      <p class="hero-subtext">Palvelemme koko Varsinais-Suomea. Yli vuosikymmenen kokemuksella, nopea vasteella ja
+        ammattitaitoisilla tekijöillä. Joka kerta.</p>
       <div class="hero-buttons">
         <a href="#contact" class="btn btn-primary">
           Pyydä tarjous
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M5 12h14M12 5l7 7-7 7"/>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12h14M12 5l7 7-7 7" />
           </svg>
         </a>
         <a href="#services" class="btn btn-outline">Tutustu palveluihin ↓</a>
@@ -1116,26 +1150,30 @@
     <div class="trust-container">
       <div class="trust-header">
         <h2>Miksi valita meidät?</h2>
-        <p>Ammattitaitoa, luotettavuutta ja nopeaa palvelua — näillä arvoilla olemme palvelleet asiakkaitamme yli vuosikymmenen.</p>
+        <p>Ammattitaitoa, luotettavuutta ja nopeaa palvelua — näillä arvoilla olemme palvelleet asiakkaitamme yli
+          vuosikymmenen.</p>
       </div>
       <div class="trust-grid">
         <div class="trust-item">
           <div class="trust-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-              <path d="m9 12 2 2 4-4"/>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              <path d="m9 12 2 2 4-4" />
             </svg>
           </div>
           <div class="trust-content">
             <h3>Sertifioitu ammattilainen</h3>
-            <p>Kaikki tarkastukset suorittaa pätevä ja sertifioitu sähköalan ammattilainen. Tarkastuspöytäkirjat virallisesti hyväksyttyjä.</p>
+            <p>Kaikki tarkastukset suorittaa pätevä ja sertifioitu sähköalan ammattilainen. Tarkastuspöytäkirjat
+              virallisesti hyväksyttyjä.</p>
           </div>
         </div>
         <div class="trust-item">
           <div class="trust-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="10"/>
-              <polyline points="12 6 12 12 16 14"/>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10" />
+              <polyline points="12 6 12 12 16 14" />
             </svg>
           </div>
           <div class="trust-content">
@@ -1145,21 +1183,23 @@
         </div>
         <div class="trust-item">
           <div class="trust-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-              <circle cx="12" cy="10" r="3"/>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+              <circle cx="12" cy="10" r="3" />
             </svg>
           </div>
           <div class="trust-content">
             <h3>Koko Varsinais-Suomi</h3>
-            <p>Palvelemme koko Varsinais-Suomen aluetta — Turusta Saloon, Loimaalta Uuteenkaupunkiin.</p>
+            <p>Palvelemme koko Varsinais-Suomen aluetta — Turusta Saloon ja Loimaalta Uuteenkaupunkiin.</p>
           </div>
         </div>
         <div class="trust-item">
           <div class="trust-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <line x1="12" y1="1" x2="12" y2="23"/>
-              <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round">
+              <line x1="12" y1="1" x2="12" y2="23" />
+              <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
             </svg>
           </div>
           <div class="trust-content">
@@ -1182,29 +1222,35 @@
       </div>
       <div class="services-grid">
         <a href="sahkotarkastukset.html" class="service-card">
-          <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+          <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
           </svg>
           <h3>Sähkötarkastukset</h3>
-          <p>Lakisääteiset tarkastukset asunnoille, liikekiinteistöille ja teollisuudelle. Varmista sähköturvallisuus ajallaan.</p>
+          <p>Lakisääteiset tarkastukset asunnoille, liikekiinteistöille ja teollisuudelle. Varmista sähköturvallisuus
+            ajallaan.</p>
           <span class="service-link">
             Lue lisää
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M5 12h14M12 5l7 7-7 7"/>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round">
+              <path d="M5 12h14M12 5l7 7-7 7" />
             </svg>
           </span>
         </a>
         <a href="maaraaikaistarkastukset.html" class="service-card">
-          <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="10"/>
-            <polyline points="12 6 12 12 16 14"/>
+          <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+            stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10" />
+            <polyline points="12 6 12 12 16 14" />
           </svg>
           <h3>Määräaikaistarkastukset</h3>
-          <p>Lakisääteiset määräaikaistarkastukset tietyin väliajoin. Pidä kiinteistösi sähköturvallisuus ajan tasalla.</p>
+          <p>Lakisääteiset määräaikaistarkastukset tietyin väliajoin. Pidä kiinteistösi sähköturvallisuus ajan tasalla.
+          </p>
           <span class="service-link">
             Lue lisää
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M5 12h14M12 5l7 7-7 7"/>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round">
+              <path d="M5 12h14M12 5l7 7-7 7" />
             </svg>
           </span>
         </a>
@@ -1218,12 +1264,15 @@
       <div class="contact-grid">
         <div class="contact-info">
           <h2>Ota yhteyttä</h2>
-          <p>Pyydä tarjous tai kysy lisää palveluistamme. Vastaamme yhteydenottoihin aina alle 24 tunnissa — usein nopeamminkin.</p>
+          <p>Pyydä tarjous tai kysy lisää palveluistamme. Vastaamme yhteydenottoihin aina alle 24 tunnissa — usein
+            nopeamminkin.</p>
           <div class="contact-links">
             <a href="tel:+358505287158" class="contact-link">
               <div class="contact-link-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <path
+                    d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
                 </svg>
               </div>
               <div class="contact-link-text">
@@ -1233,9 +1282,10 @@
             </a>
             <a href="mailto:petri4215@gmail.com" class="contact-link">
               <div class="contact-link-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <rect width="20" height="16" x="2" y="4" rx="2"/>
-                  <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <rect width="20" height="16" x="2" y="4" rx="2" />
+                  <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
                 </svg>
               </div>
               <div class="contact-link-text">
@@ -1265,8 +1315,9 @@
             </div>
             <button type="submit" class="btn btn-primary" style="width: 100%;">
               Lähetä viesti
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M5 12h14M12 5l7 7-7 7"/>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 12h14M12 5l7 7-7 7" />
               </svg>
             </button>
             <div class="form-success" id="form-success">
@@ -1294,13 +1345,13 @@
 
     window.addEventListener('scroll', () => {
       const currentScroll = window.pageYOffset;
-      
+
       if (currentScroll > 50) {
         nav.classList.add('scrolled');
       } else {
         nav.classList.remove('scrolled');
       }
-      
+
       lastScroll = currentScroll;
     });
 
@@ -1367,11 +1418,12 @@
       e.preventDefault();
       successMessage.classList.add('show');
       form.reset();
-      
+
       setTimeout(() => {
         successMessage.classList.remove('show');
       }, 5000);
     });
   </script>
 </body>
+
 </html>
