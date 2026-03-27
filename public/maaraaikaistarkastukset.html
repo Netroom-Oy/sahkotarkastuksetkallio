@@ -651,6 +651,96 @@
         margin-left: 5%;
       }
     }
+
+    /* MAATILA GRID */
+    .maatila-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+      margin: 1.75rem 0 0;
+    }
+
+    @media (min-width: 640px) {
+      .maatila-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .maatila-card {
+      background: #111111;
+      border-radius: 8px;
+      padding: 1.5rem;
+      border: 1px solid var(--border-subtle);
+    }
+
+    .maatila-card--yes {
+      border-top: 3px solid var(--accent-yellow);
+    }
+
+    .maatila-card--no {
+      border-top: 3px solid #D4380D;
+    }
+
+    .maatila-card-header {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 1.25rem;
+    }
+
+    .maatila-card--yes .maatila-card-header {
+      color: var(--accent-yellow);
+    }
+
+    .maatila-card--no .maatila-card-header {
+      color: #FF6B35;
+    }
+
+    .maatila-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .maatila-list li {
+      position: relative;
+      padding-left: 1.5rem;
+      color: var(--text-muted);
+      font-size: 0.9375rem;
+      line-height: 1.5;
+    }
+
+    .maatila-list li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0.55em;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent-yellow);
+    }
+
+    .maatila-list--no li::before {
+      background: #D4380D;
+    }
+
+    .maatila-clarification {
+      margin-top: 1.5rem !important;
+      font-size: 0.9375rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+      padding: 1.25rem;
+      background: rgba(245, 196, 0, 0.05);
+      border-left: 3px solid rgba(245, 196, 0, 0.4);
+      border-radius: 0 6px 6px 0;
+    }
   </style>
 </head>
 <body>
@@ -732,6 +822,46 @@
         <p>Tarkastusväli lasketaan edellisestä hyväksytystä tarkastuksesta tai käyttöönottotarkastuksesta.</p>
       </section>
 
+      <!-- Maatilojen section -->
+      <section class="content-section">
+        <h2>Maatilojen sähkötarkastukset</h2>
+        <p>Maatilalla on usein useita sähkölaitteistoja — navetta, konehalli, kuivuri, varasto. Nämä kaikki ovat lakisääteisen määräaikaistarkastuksen piirissä, jos pääsulake ylittää 35 A.</p>
+
+        <div class="maatila-grid">
+          <div class="maatila-card maatila-card--yes">
+            <div class="maatila-card-header">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              Kuuluu tarkastukseen
+            </div>
+            <ul class="maatila-list">
+              <li>Navetta ja eläinsuojat</li>
+              <li>Konehallit ja varastot</li>
+              <li>Kuivurit ja muut maatalousrakennukset</li>
+              <li>Kaikki yli 35 A pääsulakkeella suojatut tilat</li>
+            </ul>
+          </div>
+          <div class="maatila-card maatila-card--no">
+            <div class="maatila-card-header">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              Ei kuulu lakisääteiseen tarkastukseen
+            </div>
+            <ul class="maatila-list maatila-list--no">
+              <li>Asuinrakennus tontilla (omakotitalo)</li>
+              <li>Alle 35 A sulakkeilla suojatut tilat</li>
+            </ul>
+          </div>
+        </div>
+
+        <p class="maatila-clarification">Käytännössä tämä tarkoittaa, että tarkastaja tulee maatilalle — ei kotiisi. Asuinrakennuksesi ei kuulu lakisääteisen tarkastuksen piiriin, eikä sinun tarvitse huolehtia siitä tämän tarkastuksen yhteydessä.</p>
+
+        <div style="margin-top: 1.75rem;">
+          <a href="index.html#contact" class="btn btn-primary">
+            Ota yhteyttä maatilan sähkötarkastuksesta
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </section>
+
       <!-- Info callout section -->
       <section class="content-section">
         <h2>Milloin seuraava tarkastus on?</h2>
@@ -744,7 +874,7 @@
         </ul>
         <p style="margin-top: 1.5rem; color: var(--accent-yellow); font-weight: 600;">Älä jää kiinni kiireisistä ajoista — tarkista oma määräaikasi ja varaa aika ajoissa.</p>
         <div style="margin-top: 1.5rem;">
-          <a href="index.html#contact" class="btn btn-primary">Tarkista oma määräaikasi — pyydä tarjous</a>
+          <a href="index.html#contact" class="btn btn-primary">Tarkista oma määräaikasi — ota yhteyttä</a>
         </div>
       </section>
 
