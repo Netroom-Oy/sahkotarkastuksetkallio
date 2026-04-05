@@ -10,18 +10,18 @@ export async function GET(request: Request) {
   // Verify admin authentication
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
-  
+
   if (!user || user.email !== ADMIN_EMAIL) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
   }
 
   const { searchParams } = new URL(request.url)
   const period = searchParams.get("period") || "24h"
-  
+
   // Check for required environment variables (note: env var is VERCEL_ACCES_TOKEN with typo)
-  const vercelToken = process.env.VERCEL_ACCES_TOKEN || process.env.VERCEL_ACCESS_TOKEN
+  const vercelToken = process.env.VERCEL_ACCES_TOKEN
   const projectId = process.env.VERCEL_PROJECT_ID
-  
+
   if (!vercelToken || !projectId) {
     // Return mock data if Vercel Analytics is not configured
     return NextResponse.json({
@@ -35,7 +35,7 @@ export async function GET(request: Request) {
     // Calculate date range based on period
     const now = new Date()
     let from: Date
-    
+
     switch (period) {
       case "7d":
         from = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000)
@@ -95,7 +95,7 @@ function generateMockData(period: string) {
   const days = period === "30d" ? 30 : period === "7d" ? 7 : 1
   const baseVisitors = 45
   const basePageViews = 120
-  
+
   const dailyData = []
   for (let i = days; i >= 0; i--) {
     const date = new Date()
