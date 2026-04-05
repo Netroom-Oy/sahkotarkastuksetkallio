@@ -36,8 +36,22 @@ export async function updateSession(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser()
 
-  // Protect /admin routes - require login AND correct admin email
-  if (request.nextUrl.pathname.startsWith('/admin')) {
+  const pathname = request.nextUrl.pathname
+
+  // Public admin routes that don't require auth
+  const isAdminLoginPage = pathname === '/admin/login'
+  const isAdminUnauthorizedPage = pathname === '/admin/unauthorized'
+  const isProtectedAdminRoute = pathname.startsWith('/admin') && !isAdminLoginPage && !isAdminUnauthorizedPage
+
+  // If logged in admin visits login page, redirect to dashboard
+  if (isAdminLoginPage && user && user.email === ADMIN_EMAIL) {
+    const url = request.nextUrl.clone()
+    url.pathname = '/admin'
+    return NextResponse.redirect(url)
+  }
+
+  // Protect /admin routes (except login and unauthorized pages)
+  if (isProtectedAdminRoute) {
     // If not logged in, redirect to login
     if (!user) {
       const url = request.nextUrl.clone()
@@ -51,13 +65,6 @@ export async function updateSession(request: NextRequest) {
       url.pathname = '/admin/unauthorized'
       return NextResponse.redirect(url)
     }
-  }
-
-  // Allow /admin/login for non-authenticated users
-  if (request.nextUrl.pathname === '/admin/login' && user && user.email === ADMIN_EMAIL) {
-    const url = request.nextUrl.clone()
-    url.pathname = '/admin'
-    return NextResponse.redirect(url)
   }
 
   return supabaseResponse
