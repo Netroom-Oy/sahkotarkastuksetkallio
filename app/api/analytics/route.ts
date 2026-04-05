@@ -2,12 +2,9 @@ import { createClient } from "@/lib/supabase/server"
 import { NextResponse } from "next/server"
 
 const ADMIN_EMAIL = "petri4215@gmail.com"
-
-// Vercel Analytics API endpoint
-const VERCEL_API_BASE = "https://api.vercel.com"
+const VERCEL_API_BASE = "https://vercel.com/api"
 
 export async function GET(request: Request) {
-  // Verify admin authentication
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
 
@@ -18,21 +15,20 @@ export async function GET(request: Request) {
   const { searchParams } = new URL(request.url)
   const period = searchParams.get("period") || "24h"
 
-  // Check for required environment variables (note: env var is VERCEL_ACCES_TOKEN with typo)
-  const vercelToken = process.env.VERCEL_ACCES_TOKEN
+  // Korjattu: oikea env var nimi
+  const vercelToken = process.env.VERCEL_ACCESS_TOKEN
   const projectId = process.env.VERCEL_PROJECT_ID
+  const teamId = process.env.VERCEL_TEAM_ID // tarvitaan jos projekti on tiimin alla
 
   if (!vercelToken || !projectId) {
-    // Return mock data if Vercel Analytics is not configured
     return NextResponse.json({
       configured: false,
-      message: "Vercel Analytics not configured. Set VERCEL_ACCESS_TOKEN and VERCEL_PROJECT_ID.",
+      message: "Aseta VERCEL_ACCESS_TOKEN ja VERCEL_PROJECT_ID ympäristömuuttujiin.",
       mockData: generateMockData(period),
     })
   }
 
   try {
-    // Calculate date range based on period
     const now = new Date()
     let from: Date
 
@@ -43,49 +39,47 @@ export async function GET(request: Request) {
       case "30d":
         from = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000)
         break
-      case "24h":
       default:
         from = new Date(now.getTime() - 24 * 60 * 60 * 1000)
     }
 
-    // Fetch page views
-    const pageViewsResponse = await fetch(
-      `${VERCEL_API_BASE}/${projectId}/data/pageviews?from=${from.toISOString()}&to=${now.toISOString()}`,
-      {
-        headers: {
-          Authorization: `Bearer ${vercelToken}`,
-        },
-      }
-    )
+    const fromTs = from.getTime()
+    const toTs = now.getTime()
 
-    // Fetch Web Vitals
-    const webVitalsResponse = await fetch(
-      `${VERCEL_API_BASE}/${projectId}/data/rum?from=${from.toISOString()}&to=${now.toISOString()}`,
-      {
-        headers: {
-          Authorization: `Bearer ${vercelToken}`,
-        },
-      }
-    )
+    // Oikeat Vercel Analytics Web Insights endpointit
+    const teamQuery = teamId ? `&teamId=${teamId}` : ""
 
-    if (!pageViewsResponse.ok || !webVitalsResponse.ok) {
-      throw new Error("Failed to fetch Vercel Analytics data")
+    const [pageviewsRes, referrersRes] = await Promise.all([
+      fetch(
+        `${VERCEL_API_BASE}/web/insights/pageviews?projectId=${projectId}&from=${fromTs}&to=${toTs}&period=${period}${teamQuery}`,
+        { headers: { Authorization: `Bearer ${vercelToken}` } }
+      ),
+      fetch(
+        `${VERCEL_API_BASE}/web/insights/referrers?projectId=${projectId}&from=${fromTs}&to=${toTs}&limit=5${teamQuery}`,
+        { headers: { Authorization: `Bearer ${vercelToken}` } }
+      ),
+    ])
+
+    if (!pageviewsRes.ok) {
+      const err = await pageviewsRes.text()
+      console.error("Vercel Analytics error:", pageviewsRes.status, err)
+      throw new Error(`Vercel API ${pageviewsRes.status}: ${err}`)
     }
 
-    const pageViewsData = await pageViewsResponse.json()
-    const webVitalsData = await webVitalsResponse.json()
+    const pageviewsData = await pageviewsRes.json()
+    const referrersData = referrersRes.ok ? await referrersRes.json() : null
 
     return NextResponse.json({
       configured: true,
       period,
-      pageViews: pageViewsData,
-      webVitals: webVitalsData,
+      pageViews: pageviewsData,
+      referrers: referrersData,
     })
   } catch (error) {
     console.error("Analytics API error:", error)
     return NextResponse.json({
       configured: false,
-      error: "Failed to fetch analytics",
+      error: error instanceof Error ? error.message : "Tuntematon virhe",
       mockData: generateMockData(period),
     })
   }
