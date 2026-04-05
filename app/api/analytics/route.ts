@@ -18,8 +18,8 @@ export async function GET(request: Request) {
   const { searchParams } = new URL(request.url)
   const period = searchParams.get("period") || "24h"
   
-  // Check for required environment variables
-  const vercelToken = process.env.VERCEL_ACCESS_TOKEN
+  // Check for required environment variables (note: env var is VERCEL_ACCES_TOKEN with typo)
+  const vercelToken = process.env.VERCEL_ACCES_TOKEN || process.env.VERCEL_ACCESS_TOKEN
   const projectId = process.env.VERCEL_PROJECT_ID
   
   if (!vercelToken || !projectId) {
