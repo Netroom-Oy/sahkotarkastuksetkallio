@@ -4,7 +4,7 @@ import { NextResponse } from "next/server"
 const ADMIN_EMAIL = "petri4215@gmail.com"
 
 // Vercel Analytics API endpoint
-const VERCEL_API_BASE = "https://vercel.com/api/web/insights"
+const VERCEL_API_BASE = "https://api.vercel.com"
 
 export async function GET(request: Request) {
   // Verify admin authentication
