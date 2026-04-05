@@ -85,43 +85,43 @@ export async function GET(request: Request) {
   }
 }
 
-// function generateMockData(period: string)  {
-const days = period === "30d" ? 30 : period === "7d" ? 7 : 1
-const baseVisitors = 45
-const basePageViews = 120
+function generateMockData(period: string) {
+  const days = period === "30d" ? 30 : period === "7d" ? 7 : 1
+  const baseVisitors = 45
+  const basePageViews = 120
 
-const dailyData = []
-for (let i = days; i >= 0; i--) {
-  const date = new Date()
-  date.setDate(date.getDate() - i)
-  const randomMultiplier = 0.8 + Math.random() * 0.4
-  dailyData.push({
-    date: date.toISOString().split("T")[0],
-    visitors: Math.round(baseVisitors * randomMultiplier),
-    pageViews: Math.round(basePageViews * randomMultiplier),
-  })
-} //
+  const dailyData = []
+  for (let i = days; i >= 0; i--) {
+    const date = new Date()
+    date.setDate(date.getDate() - i)
+    const randomMultiplier = 0.8 + Math.random() * 0.4
+    dailyData.push({
+      date: date.toISOString().split("T")[0],
+      visitors: Math.round(baseVisitors * randomMultiplier),
+      pageViews: Math.round(basePageViews * randomMultiplier),
+    })
+  }
 
-return {
-  summary: {
-    totalVisitors: dailyData.reduce((sum, d) => sum + d.visitors, 0),
-    totalPageViews: dailyData.reduce((sum, d) => sum + d.pageViews, 0),
-    avgSessionDuration: "2m 34s",
-    bounceRate: "42%",
-  },
-  dailyData,
-  topPages: [
-    { path: "/", views: Math.round(basePageViews * days * 0.4), percentage: 40 },
-    { path: "/sahkotarkastukset.html", views: Math.round(basePageViews * days * 0.25), percentage: 25 },
-    { path: "/maaraaikaistarkastukset.html", views: Math.round(basePageViews * days * 0.2), percentage: 20 },
-    { path: "/admin", views: Math.round(basePageViews * days * 0.1), percentage: 10 },
-  ],
-  webVitals: {
-    lcp: { value: 1.8, rating: "good" },
-    fid: { value: 12, rating: "good" },
-    cls: { value: 0.05, rating: "good" },
-    fcp: { value: 1.2, rating: "good" },
-    ttfb: { value: 0.4, rating: "good" },
-  },
-}
+  return {
+    summary: {
+      totalVisitors: dailyData.reduce((sum, d) => sum + d.visitors, 0),
+      totalPageViews: dailyData.reduce((sum, d) => sum + d.pageViews, 0),
+      avgSessionDuration: "2m 34s",
+      bounceRate: "42%",
+    },
+    dailyData,
+    topPages: [
+      { path: "/", views: Math.round(basePageViews * days * 0.4), percentage: 40 },
+      { path: "/sahkotarkastukset.html", views: Math.round(basePageViews * days * 0.25), percentage: 25 },
+      { path: "/maaraaikaistarkastukset.html", views: Math.round(basePageViews * days * 0.2), percentage: 20 },
+      { path: "/admin", views: Math.round(basePageViews * days * 0.1), percentage: 10 },
+    ],
+    webVitals: {
+      lcp: { value: 1.8, rating: "good" },
+      fid: { value: 12, rating: "good" },
+      cls: { value: 0.05, rating: "good" },
+      fcp: { value: 1.2, rating: "good" },
+      ttfb: { value: 0.4, rating: "good" },
+    },
+  }
 }
