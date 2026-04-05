@@ -248,9 +248,7 @@ export default function AdminDashboard() {
             }}
           >
             <p style={{ color: "#facc15", fontSize: "0.875rem", margin: 0 }}>
-              <strong>Huom:</strong> Vercel Analytics ei ole konfiguroitu. Näytetään
-              esimerkkidataa. Lisää VERCEL_ACCESS_TOKEN ja VERCEL_PROJECT_ID
-              ympäristömuuttujiin saadaksesi live-datan.
+              <strong>Huom:</strong> Näytetään esimerkkiratioituja. Vercel Analytics API:n asetukset voivat vaatia lisäkonfiguraatiota Vercel-projektissasi.
             </p>
           </div>
         )}
