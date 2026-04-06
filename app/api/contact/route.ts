@@ -19,7 +19,7 @@ export async function POST(request: NextRequest) {
     // Send email via Resend
     const result = await resend.emails.send({
       from: 'Sähkötarkastukset Kallio <petri@xn--shktarkastuksetkallio-51b03b.fi>',
-      to: 'petri.kallio@xn--shktarkastuksetkallio-51b03b.fi',
+      to: 'petri.kallio@sähkötarkastuksetkallio.fi',
       replyTo: email,
       subject: `Uusi yhteydenotto: ${name}`,
       html: `
