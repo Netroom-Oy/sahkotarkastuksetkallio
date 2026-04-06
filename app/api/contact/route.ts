@@ -18,8 +18,8 @@ export async function POST(request: NextRequest) {
 
     // Send email via Resend
     const result = await resend.emails.send({
-      from: 'Sähkötarkastukset Kallio <noreply@sahkotarkastuksetkallio.fi>',
-      to: 'petri.kallio@sähkötarkastuksetkallio.fi',
+      from: 'Sähkötarkastukset Kallio <onboarding@resend.dev>',
+      to: 'petri4215@gmail.com', // Use ASCII email address
       replyTo: email,
       subject: `Uusi yhteydenotto: ${name}`,
       html: `
