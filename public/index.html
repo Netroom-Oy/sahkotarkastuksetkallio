@@ -1415,14 +1415,43 @@
     const form = document.getElementById('contact-form');
     const successMessage = document.getElementById('form-success');
 
-    form.addEventListener('submit', (e) => {
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
-      successMessage.classList.add('show');
-      form.reset();
+      
+      // Get form data
+      const formData = new FormData(form);
+      const data = {
+        name: formData.get('name'),
+        email: formData.get('email'),
+        phone: formData.get('phone'),
+        message: formData.get('message'),
+      };
 
-      setTimeout(() => {
-        successMessage.classList.remove('show');
-      }, 5000);
+      try {
+        // Send to API endpoint
+        const response = await fetch('/api/contact', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        });
+
+        if (response.ok) {
+          successMessage.classList.add('show');
+          form.reset();
+
+          setTimeout(() => {
+            successMessage.classList.remove('show');
+          }, 5000);
+        } else {
+          const error = await response.json();
+          alert('Viestin lähettäminen epäonnistui: ' + (error.error || 'Tuntematon virhe'));
+        }
+      } catch (error) {
+        console.error('Form submission error:', error);
+        alert('Viestin lähettäminen epäonnistui. Yritä uudelleen.');
+      }
     });
   </script>
 </body>
