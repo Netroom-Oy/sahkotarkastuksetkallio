@@ -471,12 +471,15 @@
     .stats-container {
       max-width: 1400px;
       margin: 0 auto;
+      display: flex;
+      justify-content: center;
     }
 
     .stats-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(2, 1fr);
       gap: 1rem;
+      justify-items: center;
     }
 
     .stat-block {
