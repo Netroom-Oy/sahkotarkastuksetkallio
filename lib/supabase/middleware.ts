@@ -2,7 +2,7 @@ import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
 // Petri's admin email - only this user can access /admin
-const ADMIN_EMAIL = 'petri4215@gmail.com'
+const ADMIN_EMAIL = 'admin@admin.fi'
 
 export async function updateSession(request: NextRequest) {
   let supabaseResponse = NextResponse.next({
@@ -58,7 +58,7 @@ export async function updateSession(request: NextRequest) {
       url.pathname = '/admin/login'
       return NextResponse.redirect(url)
     }
-    
+
     // If logged in but not the admin, redirect to unauthorized
     if (user.email !== ADMIN_EMAIL) {
       const url = request.nextUrl.clone()

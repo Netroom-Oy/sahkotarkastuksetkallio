@@ -1,7 +1,7 @@
 import { createClient } from "@/lib/supabase/server"
 import { NextResponse } from "next/server"
 
-const ADMIN_EMAIL = "petri4215@gmail.com"
+const ADMIN_EMAIL = "admin@admin.fi"
 const VERCEL_API_BASE = "https://vercel.com/api"
 
 export async function GET(request: Request) {
