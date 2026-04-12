@@ -42,6 +42,7 @@ export default function AdminDashboard() {
   const [isLoading, setIsLoading] = useState(true)
   const [analytics, setAnalytics] = useState<AnalyticsData | null>(null)
   const [period, setPeriod] = useState("30d")
+  const [showPasswordModal, setShowPasswordModal] = useState(false)
   const router = useRouter()
 
   useEffect(() => {
@@ -161,10 +162,24 @@ export default function AdminDashboard() {
               — Hallintapaneeli
             </span>
           </div>
-          <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
             <span style={{ color: "#94a3b8", fontSize: "0.875rem" }}>
               {userEmail}
             </span>
+            <button
+              onClick={() => setShowPasswordModal(true)}
+              style={{
+                padding: "0.5rem 1rem",
+                background: "transparent",
+                border: "1px solid rgba(250, 204, 21, 0.4)",
+                color: "#facc15",
+                borderRadius: "8px",
+                fontSize: "0.875rem",
+                cursor: "pointer",
+              }}
+            >
+              Vaihda salasana
+            </button>
             <button
               onClick={handleLogout}
               style={{
@@ -180,6 +195,11 @@ export default function AdminDashboard() {
               Kirjaudu ulos
             </button>
           </div>
+
+          {/* Password Change Modal */}
+          {showPasswordModal && (
+            <PasswordModal onClose={() => setShowPasswordModal(false)} />
+          )}
         </div>
       </header>
 
@@ -572,6 +592,158 @@ export default function AdminDashboard() {
           </div>
         </div>
       </main>
+    </div>
+  )
+}
+
+function PasswordModal({ onClose }: { onClose: () => void }) {
+  const [newPassword, setNewPassword] = useState("")
+  const [confirmPassword, setConfirmPassword] = useState("")
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle")
+  const [errorMsg, setErrorMsg] = useState("")
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setErrorMsg("")
+
+    if (newPassword.length < 8) {
+      setErrorMsg("Salasanan täytyy olla vähintään 8 merkkiä.")
+      return
+    }
+    if (newPassword !== confirmPassword) {
+      setErrorMsg("Salasanat eivät täsmää.")
+      return
+    }
+
+    setStatus("loading")
+    const supabase = createClient()
+    const { error } = await supabase.auth.updateUser({ password: newPassword })
+
+    if (error) {
+      setErrorMsg(error.message)
+      setStatus("error")
+    } else {
+      setStatus("success")
+      setTimeout(() => onClose(), 2000)
+    }
+  }
+
+  return (
+    <div
+      style={{
+        position: "fixed",
+        inset: 0,
+        background: "rgba(0,0,0,0.7)",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        zIndex: 100,
+      }}
+      onClick={(e) => { if (e.target === e.currentTarget) onClose() }}
+    >
+      <div
+        style={{
+          background: "#111827",
+          border: "1px solid rgba(255,255,255,0.1)",
+          borderRadius: "16px",
+          padding: "2rem",
+          width: "100%",
+          maxWidth: "400px",
+          margin: "1rem",
+        }}
+      >
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "1.5rem" }}>
+          <h2 style={{ color: "#f8fafc", fontSize: "1.125rem", fontWeight: 700, margin: 0 }}>
+            Vaihda salasana
+          </h2>
+          <button
+            onClick={onClose}
+            style={{ background: "none", border: "none", color: "#64748b", cursor: "pointer", fontSize: "1.25rem", lineHeight: 1 }}
+          >
+            ×
+          </button>
+        </div>
+
+        {status === "success" ? (
+          <div style={{ textAlign: "center", padding: "1.5rem 0" }}>
+            <div style={{ color: "#4ade80", fontSize: "2rem", marginBottom: "0.5rem" }}>✓</div>
+            <p style={{ color: "#4ade80", fontWeight: 600 }}>Salasana vaihdettu onnistuneesti!</p>
+          </div>
+        ) : (
+          <form onSubmit={handleSubmit}>
+            <div style={{ marginBottom: "1rem" }}>
+              <label style={{ color: "#94a3b8", fontSize: "0.875rem", display: "block", marginBottom: "0.5rem" }}>
+                Uusi salasana
+              </label>
+              <input
+                type="password"
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+                required
+                placeholder="Vähintään 8 merkkiä"
+                style={{
+                  width: "100%",
+                  padding: "0.75rem 1rem",
+                  background: "#0a0f1a",
+                  border: "1px solid rgba(255,255,255,0.15)",
+                  borderRadius: "8px",
+                  color: "#f8fafc",
+                  fontSize: "0.875rem",
+                  outline: "none",
+                  boxSizing: "border-box",
+                }}
+              />
+            </div>
+            <div style={{ marginBottom: "1.5rem" }}>
+              <label style={{ color: "#94a3b8", fontSize: "0.875rem", display: "block", marginBottom: "0.5rem" }}>
+                Vahvista salasana
+              </label>
+              <input
+                type="password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                required
+                placeholder="Toista uusi salasana"
+                style={{
+                  width: "100%",
+                  padding: "0.75rem 1rem",
+                  background: "#0a0f1a",
+                  border: "1px solid rgba(255,255,255,0.15)",
+                  borderRadius: "8px",
+                  color: "#f8fafc",
+                  fontSize: "0.875rem",
+                  outline: "none",
+                  boxSizing: "border-box",
+                }}
+              />
+            </div>
+
+            {errorMsg && (
+              <p style={{ color: "#f87171", fontSize: "0.875rem", marginBottom: "1rem" }}>
+                {errorMsg}
+              </p>
+            )}
+
+            <button
+              type="submit"
+              disabled={status === "loading"}
+              style={{
+                width: "100%",
+                padding: "0.75rem",
+                background: status === "loading" ? "rgba(250, 204, 21, 0.5)" : "#facc15",
+                color: "#0a0f1a",
+                border: "none",
+                borderRadius: "8px",
+                fontWeight: 700,
+                fontSize: "0.875rem",
+                cursor: status === "loading" ? "not-allowed" : "pointer",
+              }}
+            >
+              {status === "loading" ? "Vaihdetaan..." : "Vaihda salasana"}
+            </button>
+          </form>
+        )}
+      </div>
     </div>
   )
 }
