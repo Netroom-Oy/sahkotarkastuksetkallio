@@ -4,6 +4,7 @@ import { createSign } from "crypto"
 
 const ADMIN_EMAIL = "admin@admin.fi"
 const GA4_PROPERTY_ID = "532409803"
+const SITE_URL = "https://v0-marketing-website-for-saehkoetar.vercel.app"
 
 async function getGoogleAccessToken(serviceAccountKey: any): Promise<string> {
   const now = Math.floor(Date.now() / 1000)
@@ -46,11 +47,118 @@ async function getGoogleAccessToken(serviceAccountKey: any): Promise<string> {
   return tokenData.access_token
 }
 
+async function fetchCrUXVitals() {
+  try {
+    const res = await fetch(
+      "https://chromeuxreport.googleapis.com/v1/records:queryRecord",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          origin: SITE_URL,
+          formFactor: "PHONE",
+          metrics: [
+            "largest_contentful_paint",
+            "first_input_delay",
+            "cumulative_layout_shift",
+            "first_contentful_paint",
+            "experimental_time_to_first_byte",
+            "interaction_to_next_paint",
+          ],
+        }),
+      }
+    )
+
+    if (!res.ok) {
+      // Kokeile ilman formFactor-rajausta jos phone-data ei löydy
+      const res2 = await fetch(
+        "https://chromeuxreport.googleapis.com/v1/records:queryRecord",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            origin: SITE_URL,
+            metrics: [
+              "largest_contentful_paint",
+              "first_input_delay",
+              "cumulative_layout_shift",
+              "first_contentful_paint",
+              "experimental_time_to_first_byte",
+            ],
+          }),
+        }
+      )
+      if (!res2.ok) throw new Error("CrUX no data")
+      const data2 = await res2.json()
+      return parseCrUXData(data2)
+    }
+
+    const data = await res.json()
+    return parseCrUXData(data)
+  } catch (e) {
+    console.error("CrUX error:", e)
+    return null
+  }
+}
+
+function parseCrUXData(data: any) {
+  const metrics = data?.record?.metrics || {}
+
+  const getP75 = (key: string) =>
+    metrics[key]?.percentiles?.p75 ?? null
+
+  const lcp = getP75("largest_contentful_paint")
+  const fid = getP75("first_input_delay")
+  const cls = getP75("cumulative_layout_shift")
+  const fcp = getP75("first_contentful_paint")
+  const ttfb = getP75("experimental_time_to_first_byte")
+
+  return {
+    lcp: {
+      value: lcp ? Math.round(lcp) / 1000 : 1.8,
+      rating: lcp ? rateVital("lcp", lcp) : "good",
+      isReal: lcp !== null,
+    },
+    fid: {
+      value: fid ? Math.round(fid) : 12,
+      rating: fid ? rateVital("fid", fid) : "good",
+      isReal: fid !== null,
+    },
+    cls: {
+      value: cls ? Math.round(cls * 1000) / 1000 : 0.05,
+      rating: cls ? rateVital("cls", cls) : "good",
+      isReal: cls !== null,
+    },
+    fcp: {
+      value: fcp ? Math.round(fcp) / 1000 : 1.2,
+      rating: fcp ? rateVital("fcp", fcp) : "good",
+      isReal: fcp !== null,
+    },
+    ttfb: {
+      value: ttfb ? Math.round(ttfb) / 1000 : 0.4,
+      rating: ttfb ? rateVital("ttfb", ttfb) : "good",
+      isReal: ttfb !== null,
+    },
+  }
+}
+
+function rateVital(name: string, value: number): "good" | "needs-improvement" | "poor" {
+  const thresholds: Record<string, [number, number]> = {
+    lcp: [2500, 4000],
+    fid: [100, 300],
+    cls: [0.1, 0.25],
+    fcp: [1800, 3000],
+    ttfb: [800, 1800],
+  }
+  const [good, poor] = thresholds[name] || [1000, 2000]
+  if (value <= good) return "good"
+  if (value <= poor) return "needs-improvement"
+  return "poor"
+}
+
 export async function GET(request: Request) {
   const supabase = await createClient()
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
+  const { data: { user } } = await supabase.auth.getUser()
 
   if (!user || user.email !== ADMIN_EMAIL) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
@@ -60,9 +168,6 @@ export async function GET(request: Request) {
   const period = searchParams.get("period") || "30d"
 
   const ga4KeyJson = process.env.GA4_SERVICE_ACCOUNT_KEY
-  const vercelToken = process.env.VERCEL_ACCESS_TOKEN
-  const projectId = process.env.VERCEL_PROJECT_ID
-  const teamId = process.env.VERCEL_TEAM_ID
 
   if (!ga4KeyJson) {
     return NextResponse.json({
@@ -77,28 +182,31 @@ export async function GET(request: Request) {
     const accessToken = await getGoogleAccessToken(serviceAccountKey)
     const dateRange = periodToDateRange(period)
 
-    const ga4Response = await fetch(
-      `https://analyticsdata.googleapis.com/v1beta/properties/${GA4_PROPERTY_ID}:runReport`,
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          dateRanges: [dateRange],
-          dimensions: [{ name: "date" }, { name: "pagePath" }],
-          metrics: [
-            { name: "sessions" },
-            { name: "screenPageViews" },
-            { name: "bounceRate" },
-            { name: "averageSessionDuration" },
-          ],
-          orderBys: [{ dimension: { dimensionName: "date" } }],
-          limit: 1000,
-        }),
-      }
-    )
+    const [ga4Response, cruxVitals] = await Promise.all([
+      fetch(
+        `https://analyticsdata.googleapis.com/v1beta/properties/${GA4_PROPERTY_ID}:runReport`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            dateRanges: [dateRange],
+            dimensions: [{ name: "date" }, { name: "pagePath" }],
+            metrics: [
+              { name: "sessions" },
+              { name: "screenPageViews" },
+              { name: "bounceRate" },
+              { name: "averageSessionDuration" },
+            ],
+            orderBys: [{ dimension: { dimensionName: "date" } }],
+            limit: 1000,
+          }),
+        }
+      ),
+      fetchCrUXVitals(),
+    ])
 
     if (!ga4Response.ok) {
       const err = await ga4Response.text()
@@ -108,17 +216,11 @@ export async function GET(request: Request) {
     const ga4Data = await ga4Response.json()
     const processed = processGA4Data(ga4Data, period)
 
-    let webVitals = generateMockWebVitals()
-    if (vercelToken && projectId) {
-      try {
-        webVitals = await fetchVercelWebVitals(vercelToken, projectId, teamId, period)
-      } catch (e) {
-        console.error("Vercel vitals error:", e)
-      }
-    }
+    const webVitals = cruxVitals || generateMockWebVitals()
 
     return NextResponse.json({
       configured: true,
+      cruxAvailable: cruxVitals !== null,
       period,
       mockData: { ...processed, webVitals },
     })
@@ -200,46 +302,13 @@ function processGA4Data(data: any, period: string) {
   }
 }
 
-async function fetchVercelWebVitals(token: string, projectId: string, teamId: string | undefined, period: string) {
-  const now = new Date()
-  const days = period === "30d" ? 30 : period === "7d" ? 7 : 1
-  const from = new Date(now.getTime() - days * 24 * 60 * 60 * 1000)
-  const teamQuery = teamId ? `&teamId=${teamId}` : ""
-
-  const res = await fetch(
-    `https://vercel.com/api/web/insights/vitals?projectId=${projectId}&from=${from.getTime()}&to=${now.getTime()}${teamQuery}`,
-    { headers: { Authorization: `Bearer ${token}` } }
-  )
-  if (!res.ok) throw new Error(`Vercel vitals ${res.status}`)
-  const vitalsData = await res.json()
-  const vitals = vitalsData?.data || {}
-
-  return {
-    lcp: { value: vitals.lcp?.p75 ? Math.round(vitals.lcp.p75) / 1000 : 1.8, rating: rateVital("lcp", vitals.lcp?.p75 || 1800) },
-    fid: { value: vitals.fid?.p75 ? Math.round(vitals.fid.p75) : 12, rating: rateVital("fid", vitals.fid?.p75 || 12) },
-    cls: { value: vitals.cls?.p75 ? Math.round(vitals.cls.p75 * 1000) / 1000 : 0.05, rating: rateVital("cls", vitals.cls?.p75 || 0.05) },
-    fcp: { value: vitals.fcp?.p75 ? Math.round(vitals.fcp.p75) / 1000 : 1.2, rating: rateVital("fcp", vitals.fcp?.p75 || 1200) },
-    ttfb: { value: vitals.ttfb?.p75 ? Math.round(vitals.ttfb.p75) / 1000 : 0.4, rating: rateVital("ttfb", vitals.ttfb?.p75 || 400) },
-  }
-}
-
-function rateVital(name: string, value: number): "good" | "needs-improvement" | "poor" {
-  const thresholds: Record<string, [number, number]> = {
-    lcp: [2500, 4000], fid: [100, 300], cls: [0.1, 0.25], fcp: [1800, 3000], ttfb: [800, 1800],
-  }
-  const [good, poor] = thresholds[name] || [1000, 2000]
-  if (value <= good) return "good"
-  if (value <= poor) return "needs-improvement"
-  return "poor"
-}
-
 function generateMockWebVitals() {
   return {
-    lcp: { value: 1.8, rating: "good" },
-    fid: { value: 12, rating: "good" },
-    cls: { value: 0.05, rating: "good" },
-    fcp: { value: 1.2, rating: "good" },
-    ttfb: { value: 0.4, rating: "good" },
+    lcp: { value: 1.8, rating: "good", isReal: false },
+    fid: { value: 12, rating: "good", isReal: false },
+    cls: { value: 0.05, rating: "good", isReal: false },
+    fcp: { value: 1.2, rating: "good", isReal: false },
+    ttfb: { value: 0.4, rating: "good", isReal: false },
   }
 }
 
