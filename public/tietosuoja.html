@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="fi">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Tietosuoja | Sähkötarkastukset Kallio</title>
+  <meta name="description" content="Sähkötarkastukset Kallion tietosuojaseloste. Lue miten käsittelemme henkilötietojasi.">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg-dark: #0D0D0D;
+      --bg-card: #161616;
+      --accent-yellow: #F5C400;
+      --text-primary: #F2F0EB;
+      --text-muted: #8A9BA8;
+      --border-subtle: #2A2A2A;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'DM Sans', system-ui, sans-serif;
+      background-color: var(--bg-dark);
+      color: var(--text-primary);
+      line-height: 1.7;
+      min-height: 100vh;
+    }
+
+    .font-display {
+      font-family: 'Barlow Condensed', system-ui, sans-serif;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    /* NAV */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      padding: 1rem 1.5rem;
+      background-color: rgba(13, 13, 13, 0.95);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-logo {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .nav-logo span {
+      color: var(--accent-yellow);
+    }
+
+    .nav-logo svg {
+      width: 20px;
+      height: 20px;
+      color: var(--accent-yellow);
+    }
+
+    .nav-back {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--text-muted);
+      font-size: 0.875rem;
+      transition: color 0.2s;
+    }
+
+    .nav-back:hover {
+      color: var(--accent-yellow);
+    }
+
+    .nav-back svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* MAIN CONTENT */
+    .main {
+      padding-top: 100px;
+      padding-bottom: 80px;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    /* HERO */
+    .hero {
+      margin-bottom: 4rem;
+      text-align: center;
+    }
+
+    .hero h1 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+      color: var(--text-primary);
+      margin-bottom: 1rem;
+    }
+
+    .hero p {
+      color: var(--text-muted);
+      font-size: 1.125rem;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    /* HIGHLIGHT CARDS */
+    .highlights {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+      margin-bottom: 3rem;
+    }
+
+    @media (max-width: 600px) {
+      .highlights {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .highlight-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 1.5rem;
+    }
+
+    .highlight-card h3 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--accent-yellow);
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .highlight-card h3 svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    .highlight-card p {
+      color: var(--text-muted);
+      font-size: 0.9375rem;
+      line-height: 1.6;
+    }
+
+    /* SECTIONS */
+    .section {
+      margin-bottom: 2.5rem;
+    }
+
+    .section h2 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+      color: var(--text-primary);
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--accent-yellow);
+      display: inline-block;
+    }
+
+    .section p {
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+    }
+
+    .section p:last-child {
+      margin-bottom: 0;
+    }
+
+    .section ul {
+      list-style: none;
+      margin-bottom: 1rem;
+    }
+
+    .section ul li {
+      position: relative;
+      padding-left: 1.5rem;
+      color: var(--text-muted);
+      margin-bottom: 0.5rem;
+    }
+
+    .section ul li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0.6em;
+      width: 6px;
+      height: 6px;
+      background: var(--accent-yellow);
+      border-radius: 50%;
+    }
+
+    /* INFO BOX */
+    .info-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-left: 3px solid var(--accent-yellow);
+      border-radius: 0 8px 8px 0;
+      padding: 1.25rem 1.5rem;
+      margin: 1.5rem 0;
+    }
+
+    .info-box p {
+      margin: 0;
+      color: var(--text-muted);
+      font-size: 0.9375rem;
+    }
+
+    .info-box strong {
+      color: var(--text-primary);
+    }
+
+    /* CONTACT BOX */
+    .contact-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-top: 1rem;
+    }
+
+    .contact-box p {
+      margin-bottom: 0.25rem;
+    }
+
+    .contact-box a {
+      color: var(--accent-yellow);
+      transition: opacity 0.2s;
+    }
+
+    .contact-box a:hover {
+      opacity: 0.8;
+    }
+
+    /* FOOTER */
+    .footer {
+      background: var(--bg-card);
+      border-top: 1px solid var(--border-subtle);
+      padding: 2rem 1.5rem;
+      text-align: center;
+    }
+
+    .footer-content {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .footer-logo {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.125rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 0.5rem;
+    }
+
+    .footer-logo span {
+      color: var(--accent-yellow);
+    }
+
+    .footer-info {
+      color: var(--text-muted);
+      font-size: 0.875rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .footer-bottom {
+      color: var(--text-muted);
+      font-size: 0.75rem;
+    }
+
+    /* UPDATED DATE */
+    .updated {
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border-subtle);
+      color: var(--text-muted);
+      font-size: 0.875rem;
+      font-style: italic;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- NAV -->
+  <nav class="nav">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">
+        <svg viewBox="0 0 24 24" fill="currentColor" stroke="none">
+          <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+        </svg>
+        Sähkötarkastukset <span>Kallio</span>
+      </a>
+      <a href="index.html" class="nav-back">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M19 12H5M12 19l-7-7 7-7"/>
+        </svg>
+        Takaisin etusivulle
+      </a>
+    </div>
+  </nav>
+
+  <!-- MAIN -->
+  <main class="main">
+    <div class="container">
+      <!-- HERO -->
+      <div class="hero">
+        <h1>Tietosuoja</h1>
+        <p>Yksityisyytesi on meille tärkeää. Tässä kerromme miten käsittelemme tietojasi.</p>
+      </div>
+
+      <!-- HIGHLIGHTS -->
+      <div class="highlights">
+        <div class="highlight-card">
+          <h3>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+            Tietosi turvassa
+          </h3>
+          <p>Käytämme alan parhaita käytäntöjä pitääksemme tietosi turvassa.</p>
+        </div>
+        <div class="highlight-card">
+          <h3>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="12" y1="16" x2="12" y2="12"/>
+              <line x1="12" y1="8" x2="12.01" y2="8"/>
+            </svg>
+            Läpinäkyvyys
+          </h3>
+          <p>Kerromme avoimesti mitä tietoja keräämme ja miksi.</p>
+        </div>
+        <div class="highlight-card">
+          <h3>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="15" y1="9" x2="9" y2="15"/>
+              <line x1="9" y1="9" x2="15" y2="15"/>
+            </svg>
+            Ei myydä tietojasi
+          </h3>
+          <p>Emme koskaan myy henkilötietojasi kolmansille osapuolille.</p>
+        </div>
+        <div class="highlight-card">
+          <h3>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+              <circle cx="9" cy="7" r="4"/>
+              <polyline points="16 11 18 13 22 9"/>
+            </svg>
+            Sinun oikeutesi
+          </h3>
+          <p>Voit milloin tahansa pyytää tietojesi poistamista.</p>
+        </div>
+      </div>
+
+      <!-- REKISTERINPITÄJÄ -->
+      <section class="section">
+        <h2>Rekisterinpitäjä</h2>
+        <div class="contact-box">
+          <p><strong>Sähkötarkastukset Kallio</strong></p>
+          <p>Y-tunnus: 3569055-8</p>
+          <p>Sähköposti: <a href="mailto:petri.kallio@xn--shktarkastuksetkallio-51b03b.fi">petri.kallio@sähkötarkastuksetkallio.fi</a></p>
+        </div>
+      </section>
+
+      <!-- HENKILÖTIETOJEN KÄSITTELIJÄT -->
+      <section class="section">
+        <h2>Henkilötietojen käsittelijät</h2>
+        <p>Yhteydenottolomakkeen kautta lähetetyt tiedot käsitellään seuraavien osapuolten toimesta:</p>
+        <ul>
+          <li>Sähkötarkastukset Kallio</li>
+          <li>Verkkosivujen tekninen toteuttaja</li>
+          <li>Sähköpostipalveluntarjoaja (Resend)</li>
+        </ul>
+        <div class="info-box">
+          <p>Resend toimii sähköpostinvälityspalveluna ja käsittelee tietoja vain viestin toimittamista varten.</p>
+        </div>
+      </section>
+
+      <!-- MITÄ TIETOJA KERÄÄMME -->
+      <section class="section">
+        <h2>Mitä tietoja keräämme?</h2>
+        <p>Keräämme vain tietoja, jotka ovat tarpeellisia yhteydenottoon vastaamiseksi. Näitä ovat:</p>
+        <ul>
+          <li>Nimi</li>
+          <li>Sähköpostiosoite</li>
+          <li>Puhelinnumero</li>
+          <li>Viestin sisältö</li>
+        </ul>
+      </section>
+
+      <!-- MIHIN TIETOJA KÄYTETÄÄN -->
+      <section class="section">
+        <h2>Mihin tietoja käytetään?</h2>
+        <p>Tietoja käytetään ainoastaan:</p>
+        <ul>
+          <li>Yhteydenottoihin vastaamiseen</li>
+          <li>Tarjousten laatimiseen</li>
+          <li>Asiakassuhteen hoitamiseen</li>
+        </ul>
+        <div class="info-box">
+          <p><strong>Huom:</strong> Tietoja ei käytetä markkinointiin ilman erillistä suostumusta.</p>
+        </div>
+      </section>
+
+      <!-- OIKEUSPERUSTE -->
+      <section class="section">
+        <h2>Tietojen käsittelyn oikeusperuste</h2>
+        <p>Tietojen käsittely perustuu käyttäjän tekemään yhteydenottoon ja oikeutettuun etuun vastata pyyntöön.</p>
+      </section>
+
+      <!-- SÄILYTYS -->
+      <section class="section">
+        <h2>Tietojen säilytys</h2>
+        <p>Tietoja säilytetään vain niin kauan kuin on tarpeellista yhteydenoton käsittelemiseksi tai asiakassuhteen hoitamiseksi.</p>
+      </section>
+
+      <!-- SIIRTO EU/ETA ULKOPUOLELLE -->
+      <section class="section">
+        <h2>Tietojen siirto EU/ETA-alueen ulkopuolelle</h2>
+        <p>Yhteydenottolomakkeen viestit välitetään sähköpostitse Resend-palvelun kautta. Resend voi käsitellä tietoja EU/ETA-alueen ulkopuolella tietosuojalainsäädännön mukaisesti käyttäen asianmukaisia suojatoimia (esim. EU:n mallisopimuslausekkeet).</p>
+      </section>
+
+      <!-- SINUN OIKEUTESI -->
+      <section class="section">
+        <h2>Sinun oikeutesi</h2>
+        <p>Sinulla on oikeus:</p>
+        <ul>
+          <li>Tarkastaa sinusta tallennetut tiedot</li>
+          <li>Pyytää tietojen korjaamista</li>
+          <li>Pyytää tietojen poistamista</li>
+          <li>Rajoittaa tietojen käsittelyä</li>
+          <li>Vastustaa tietojen käsittelyä</li>
+          <li>Tehdä valitus tietosuojavaltuutetulle</li>
+        </ul>
+      </section>
+
+      <!-- EVÄSTEET -->
+      <section class="section">
+        <h2>Evästeet</h2>
+        <p>Sivusto käyttää vain välttämättömiä evästeitä sivuston toiminnan varmistamiseksi. Analytiikkaevästeitä (Google Analytics) käytetään sivuston kehittämiseen.</p>
+      </section>
+
+      <!-- UPDATED -->
+      <p class="updated">Päivitetty viimeksi: Huhtikuu 2026</p>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-logo">Sähkötarkastukset <span>Kallio</span></div>
+      <div class="footer-info">Y-tunnus: 3569055-8</div>
+      <div class="footer-bottom">© 2026 Sähkötarkastukset Kallio</div>
+    </div>
+  </footer>
+</body>
+
+</html>
