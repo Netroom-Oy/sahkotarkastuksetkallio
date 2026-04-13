@@ -849,6 +849,55 @@
       }
     });
   </script>
+
+  <!-- COOKIE BANNER -->
+  <div id="cookie-banner" style="display:none;position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%);z-index:9999;width:calc(100% - 2rem);max-width:580px;">
+    <div style="background:#1A1A1A;border:1px solid rgba(245,196,0,0.25);border-radius:12px;padding:1.5rem;box-shadow:0 8px 32px rgba(0,0,0,0.6);">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;margin-bottom:1rem;">
+        <h3 style="font-family:'Barlow Condensed',sans-serif;font-size:1.25rem;font-weight:700;color:#F2F0EB;margin:0;letter-spacing:0.03em;text-transform:uppercase;">Evästeet</h3>
+        <button id="cookie-close" aria-label="Sulje" style="background:none;border:none;cursor:pointer;color:#8A9BA8;font-size:1.25rem;line-height:1;padding:0;flex-shrink:0;">&#x2715;</button>
+      </div>
+      <p style="font-size:0.875rem;color:#8A9BA8;line-height:1.6;margin:0 0 1.25rem;">
+        Käytämme evästeitä parantaaksemme käyttökokemusta ja analysoidaksemme sivuston käyttöä. Voit hyväksyä kaikki evästeet tai sallia vain välttämättömät evästeet. Lue lisää <a href="tietosuoja.html" style="color:#F5C400;text-decoration:none;border-bottom:1px solid rgba(245,196,0,0.4);">evästekäytännöstämme</a>.
+      </p>
+      <div id="cookie-settings" style="display:none;margin-bottom:1.25rem;border-top:1px solid rgba(255,255,255,0.08);padding-top:1rem;">
+        <div style="display:flex;flex-direction:column;gap:0.75rem;">
+          <label style="display:flex;align-items:center;justify-content:space-between;gap:1rem;">
+            <div><div style="color:#F2F0EB;font-size:0.875rem;font-weight:600;">Välttämättömät evästeet</div><div style="color:#8A9BA8;font-size:0.8rem;">Sivuston toiminnan kannalta pakollisia. Aina päällä.</div></div>
+            <div style="background:#F5C400;border-radius:100px;width:36px;height:20px;flex-shrink:0;"></div>
+          </label>
+          <label style="display:flex;align-items:center;justify-content:space-between;gap:1rem;cursor:pointer;">
+            <div><div style="color:#F2F0EB;font-size:0.875rem;font-weight:600;">Analytiikkaevästeet</div><div style="color:#8A9BA8;font-size:0.8rem;">Auttavat meitä ymmärtämään sivuston käyttöä.</div></div>
+            <input type="checkbox" id="cookie-analytics" checked style="width:18px;height:18px;accent-color:#F5C400;flex-shrink:0;">
+          </label>
+        </div>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:0.75rem;">
+        <button id="cookie-necessary" style="flex:1;min-width:130px;padding:0.65rem 1rem;background:transparent;border:1px solid rgba(255,255,255,0.2);color:#8A9BA8;border-radius:8px;font-size:0.875rem;cursor:pointer;font-family:'DM Sans',sans-serif;white-space:nowrap;">Vain välttämättömät</button>
+        <button id="cookie-accept" style="flex:1;min-width:130px;padding:0.65rem 1rem;background:#F5C400;border:none;color:#0D0D0D;border-radius:8px;font-size:0.875rem;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;white-space:nowrap;">Hyväksy kaikki</button>
+        <button id="cookie-customize" style="flex:1;min-width:130px;padding:0.65rem 1rem;background:transparent;border:1px solid rgba(255,255,255,0.2);color:#F2F0EB;border-radius:8px;font-size:0.875rem;cursor:pointer;font-family:'DM Sans',sans-serif;white-space:nowrap;">Muokkaa asetuksia</button>
+      </div>
+      <div id="cookie-save-row" style="display:none;margin-top:0.75rem;">
+        <button id="cookie-save" style="width:100%;padding:0.65rem 1rem;background:#F5C400;border:none;color:#0D0D0D;border-radius:8px;font-size:0.875rem;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;">Tallenna valinnat</button>
+      </div>
+    </div>
+  </div>
+  <script>
+    (function() {
+      var banner = document.getElementById('cookie-banner');
+      if (!localStorage.getItem('cookie-consent')) { banner.style.display = 'block'; }
+      document.getElementById('cookie-close').addEventListener('click', function() { banner.style.display='none'; localStorage.setItem('cookie-consent','necessary'); });
+      document.getElementById('cookie-necessary').addEventListener('click', function() { banner.style.display='none'; localStorage.setItem('cookie-consent','necessary'); });
+      document.getElementById('cookie-accept').addEventListener('click', function() { banner.style.display='none'; localStorage.setItem('cookie-consent','all'); });
+      document.getElementById('cookie-customize').addEventListener('click', function() {
+        var s=document.getElementById('cookie-settings'), r=document.getElementById('cookie-save-row'), open=s.style.display!=='none';
+        s.style.display=open?'none':'block'; r.style.display=open?'none':'block';
+      });
+      document.getElementById('cookie-save').addEventListener('click', function() {
+        banner.style.display='none'; localStorage.setItem('cookie-consent', document.getElementById('cookie-analytics').checked?'all':'necessary');
+      });
+    })();
+  </script>
 </body>
 
 </html>
