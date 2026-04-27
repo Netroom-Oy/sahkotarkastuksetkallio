@@ -630,9 +630,23 @@
     }
 
     /* DESKTOP STYLES */
-    @media (min-width: 768px) {
-      .nav {
-        padding: 1.25rem 2rem;
+    @media (min-width: 1024px) {
+      .page-header {
+        display: grid;
+        grid-template-columns: 1fr 350px;
+        gap: 3rem;
+        align-items: start;
+      }
+
+      .page-header-container {
+        max-width: 900px;
+        margin: 0;
+      }
+
+      .content-sidebar {
+        position: sticky;
+        top: 100px;
+        height: fit-content;
       }
 
       .nav-links {
@@ -755,8 +769,7 @@
         uudis- ja remonttikohteisiinsa 3 kk:n kuluessa lakisääteisen käyttöönottotarkastuksensa jälkeen. Mikäli hän
         poikkeuksellisesti laiminlyö velvoitteensa, tulee sähkölaitteiston haltijan huolehtia em. tarkastuksistakin,
         joiden lopputulemat ovat pöytäkirja käyttöönottotarkastuksesta ja varmennustarkastustodistus.</p>
-    </div>
-    <div>
+      </div>
       <aside class="content-sidebar">
         <div class="sidebar-card">
           <h3>
