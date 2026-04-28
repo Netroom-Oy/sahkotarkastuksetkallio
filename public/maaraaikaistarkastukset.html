@@ -8,21 +8,22 @@
   <meta name="description"
     content="Lakisääteiset sähkölaitteiston määräaikaistarkastukset koko Suomessa. Valtuutettu tarkastaja, nopea palvelu.">
 
-  <!-- Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-6NTCW8DKB9"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
-    gtag('js', new Date());
-    gtag('config', 'G-6NTCW8DKB9');
-  </script>
+  <!-- Google Analytics - moved to end of body for performance -->
+  
 
-  <!-- Google Fonts -->
+  <!-- Google Fonts - Async Load -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
     href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap"
-    rel="stylesheet">
+    rel="stylesheet"
+    media="print"
+    onload="this.media='all'">
+  <noscript>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet">
+  </noscript>
 
   <style>
     *,
@@ -865,7 +866,7 @@
   <!-- NAV -->
   <nav class="nav">
     <div class="nav-container">
-      <a href="index.html" class="nav-logo">Sähkötarkastukset <span>Kallio</span></a>
+      <a href="index.html" class="nav-logo" fetchpriority="high">Sähkötarkastukset <span>Kallio</span></a>
       <ul class="nav-links">
         <li><a href="index.html#services">Palvelut</a></li>
         <li><a href="index.html#why-us">Meistä</a></li>
@@ -1083,6 +1084,14 @@
         banner.style.display = 'none'; localStorage.setItem('cookie-consent', document.getElementById('cookie-analytics').checked ? 'all' : 'necessary');
       });
     })();
+  </script>
+  <!-- Google Analytics - Moved to end of body for non-blocking load -->
+  <script defer src="https://www.googletagmanager.com/gtag/js?id=G-6NTCW8DKB9"></script>
+  <script defer>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-6NTCW8DKB9');
   </script>
 </body>
 

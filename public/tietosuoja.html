@@ -8,12 +8,19 @@
   <meta name="description"
     content="Sähkötarkastukset Kallion tietosuojaseloste. Lue miten käsittelemme henkilötietojasi.">
 
-  <!-- Google Fonts -->
+  <!-- Google Fonts - Async Load -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
     href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap"
-    rel="stylesheet">
+    rel="stylesheet"
+    media="print"
+    onload="this.media='all'">
+  <noscript>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet">
+  </noscript>
 
   <style>
     *,
@@ -347,7 +354,7 @@
   <!-- NAV -->
   <nav class="nav">
     <div class="nav-container">
-      <a href="index.html" class="nav-logo">
+      <a href="index.html" class="nav-logo" fetchpriority="high">
         <svg viewBox="0 0 24 24" fill="currentColor" stroke="none">
           <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
         </svg>
@@ -531,6 +538,14 @@
           style="color: #8A9BA8; text-decoration: none; transition: color 0.2s;">NETROOM</a></div>
     </div>
   </footer>
+  <!-- Google Analytics - Moved to end of body for non-blocking load -->
+  <script defer src="https://www.googletagmanager.com/gtag/js?id=G-6NTCW8DKB9"></script>
+  <script defer>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-6NTCW8DKB9');
+  </script>
 </body>
 
 </html>
