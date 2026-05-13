@@ -1288,7 +1288,7 @@
             <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
           </svg>
           <h3>Varmennustarkastukset</h3>
-          <p>Sähkölaitteiston rakentajan lakisääteinen velvoite yli 3x35A:n uudis- ja remonttikohteisiin 3 kk:n kuluessa
+          <p>Sähk��laitteiston rakentajan lakisääteinen velvoite yli 3x35A:n uudis- ja remonttikohteisiin 3 kk:n kuluessa
             käyttöönottotarkastuksen jälkeen.</p>
           <span class="service-link">
             Lue lisää
@@ -1370,7 +1370,7 @@
           </div>
         </div>
         <div class="contact-form-wrapper">
-          <form class="contact-form" id="contact-form">
+          <form class="contact-form" id="contact-form" action="#contact" method="POST" onsubmit="return false;">
             <div class="form-group">
               <label for="name">Nimi</label>
               <input type="text" id="name" name="name" placeholder="Nimesi" required>
@@ -1495,44 +1495,57 @@
     const form = document.getElementById('contact-form');
     const successMessage = document.getElementById('form-success');
 
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
+    if (form) {
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        e.stopPropagation();
 
-      // Get form data
-      const formData = new FormData(form);
-      const data = {
-        name: formData.get('name'),
-        email: formData.get('email'),
-        phone: formData.get('phone'),
-        message: formData.get('message'),
-      };
+        const submitBtn = form.querySelector('button[type="submit"]');
+        const originalBtnText = submitBtn.innerHTML;
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = 'Lähetetään...';
 
-      try {
-        // Send to API endpoint
-        const response = await fetch('/api/contact', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(data),
-        });
+        // Get form data
+        const formData = new FormData(form);
+        const data = {
+          name: formData.get('name'),
+          email: formData.get('email'),
+          phone: formData.get('phone'),
+          message: formData.get('message'),
+        };
 
-        if (response.ok) {
-          successMessage.classList.add('show');
-          form.reset();
+        try {
+          // Send to API endpoint
+          const response = await fetch('/api/contact', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+          });
 
-          setTimeout(() => {
-            successMessage.classList.remove('show');
-          }, 5000);
-        } else {
-          const error = await response.json();
-          alert('Viestin lähettäminen epäonnistui: ' + (error.error || 'Tuntematon virhe'));
+          if (response.ok) {
+            successMessage.classList.add('show');
+            form.reset();
+
+            setTimeout(() => {
+              successMessage.classList.remove('show');
+            }, 5000);
+          } else {
+            const error = await response.json();
+            alert('Viestin lähettäminen epäonnistui: ' + (error.error || 'Tuntematon virhe'));
+          }
+        } catch (error) {
+          console.error('Form submission error:', error);
+          alert('Viestin lähettäminen epäonnistui. Yritä uudelleen.');
+        } finally {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = originalBtnText;
         }
-      } catch (error) {
-        console.error('Form submission error:', error);
-        alert('Viestin lähettäminen epäonnistui. Yritä uudelleen.');
-      }
-    });
+
+        return false;
+      });
+    }
   </script>
 
   <!-- COOKIE BANNER -->
