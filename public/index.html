@@ -1492,7 +1492,7 @@
       });
     }, { threshold: 0.5 });
 
-    statsObserver.observe(statsSection);
+    if (statsSection) statsObserver.observe(statsSection);
 
     // Form submission
     const form = document.getElementById('contact-form');
