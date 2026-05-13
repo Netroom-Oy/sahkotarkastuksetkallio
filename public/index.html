@@ -1545,6 +1545,11 @@
           submitBtn.disabled = false;
           submitBtn.innerHTML = originalBtnText;
         }
+      } catch (error) {
+        console.error('Form submission error:', error);
+        alert('Viestin lähettäminen epäonnistui. Yritä uudelleen.');
+      }
+    }); 
 
         return false;
       });
