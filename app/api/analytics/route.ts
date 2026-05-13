@@ -2,9 +2,9 @@ import { createClient } from "@/lib/supabase/server"
 import { NextResponse } from "next/server"
 import { createSign } from "crypto"
 
-const ADMIN_EMAIL = "petri.kallio@xn--shktarkastuksetkallio-51b03b.fi"
+const ADMIN_EMAIL = "petri.kallio@sahkotarkastuksetkallio.fi"
 const GA4_PROPERTY_ID = "532409803"
-const SITE_URL = "https://v0-marketing-website-for-saehkoetar.vercel.app"
+const SITE_URL = "https://www.xn--shktarkastuksetkallio-51b03b.fi"
 
 async function getGoogleAccessToken(serviceAccountKey: any): Promise<string> {
   const now = Math.floor(Date.now() / 1000)
