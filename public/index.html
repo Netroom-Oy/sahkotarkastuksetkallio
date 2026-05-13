@@ -939,11 +939,11 @@
     .form-group textarea {
       resize: vertical;
       min-height: 140px;
-    }
-
-    .form-success {
-      display: none;
-      background: rgba(245, 196, 0, 0.1);
+  }
+  
+  .form-success {
+  display: none;
+  background: rgba(245, 196, 0, 0.1);
       border: 1px solid rgba(245, 196, 0, 0.3);
       border-radius: 8px;
       padding: 1.25rem;
@@ -951,11 +951,11 @@
       font-size: 0.9375rem;
       font-weight: 500;
       text-align: center;
-    }
-
-    .form-success.show {
-      display: block;
-    }
+  }
+  
+  .form-success.show {
+  display: block;
+  }
 
     /* FOOTER */
     .footer {
@@ -1288,7 +1288,7 @@
             <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
           </svg>
           <h3>Varmennustarkastukset</h3>
-          <p>Sähkölaitteiston rakentajan lakisääteinen velvoite yli 3x35A:n uudis- ja remonttikohteisiin 3 kk:n kuluessa
+          <p>Sähk����laitteiston rakentajan lakisääteinen velvoite yli 3x35A:n uudis- ja remonttikohteisiin 3 kk:n kuluessa
             käyttöönottotarkastuksen jälkeen.</p>
           <span class="service-link">
             Lue lisää
@@ -1353,7 +1353,7 @@
                 <span class="contact-link-value">+358 505 287 158</span>
               </div>
             </a>
-            <a href="mailto:petri.kallio@sähkötarkastuksetkallio.fi" class="contact-link">
+            <a href="mailto:petri.kallio@sahkotarkastuksetkallio.fi" class="contact-link">
               <div class="contact-link-icon">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                   stroke-linejoin="round">
@@ -1364,7 +1364,7 @@
               <div class="contact-link-text">
                 <span class="contact-link-label">Sähköposti</span>
                 <span class="contact-link-value"
-                  style="font-size: 0.75em; white-space: nowrap;">petri.kallio@sähkötarkastuksetkallio.fi</span>
+                  style="font-size: 0.75em; white-space: nowrap;">petri.kallio@sahkotarkastuksetkallio.fi</span>
               </div>
             </a>
           </div>
@@ -1439,23 +1439,26 @@
     // Mobile menu toggle
     const hamburger = document.querySelector('.hamburger');
     const mobileMenu = document.getElementById('mobile-menu');
-    const mobileLinks = mobileMenu.querySelectorAll('a');
+    
+    if (hamburger && mobileMenu) {
+      const mobileLinks = mobileMenu.querySelectorAll('a');
 
-    hamburger.addEventListener('click', () => {
-      const isActive = hamburger.classList.toggle('active');
-      mobileMenu.classList.toggle('active');
-      hamburger.setAttribute('aria-expanded', isActive);
-      document.body.style.overflow = isActive ? 'hidden' : '';
-    });
-
-    mobileLinks.forEach(link => {
-      link.addEventListener('click', () => {
-        hamburger.classList.remove('active');
-        mobileMenu.classList.remove('active');
-        hamburger.setAttribute('aria-expanded', 'false');
-        document.body.style.overflow = '';
+      hamburger.addEventListener('click', () => {
+        const isActive = hamburger.classList.toggle('active');
+        mobileMenu.classList.toggle('active');
+        hamburger.setAttribute('aria-expanded', isActive);
+        document.body.style.overflow = isActive ? 'hidden' : '';
       });
-    });
+
+      mobileLinks.forEach(link => {
+        link.addEventListener('click', () => {
+          hamburger.classList.remove('active');
+          mobileMenu.classList.remove('active');
+          hamburger.setAttribute('aria-expanded', 'false');
+          document.body.style.overflow = '';
+        });
+      });
+    }
 
     // Count-up animation for stats
     const animateCountUp = (element, target, suffix = '') => {
@@ -1495,44 +1498,62 @@
     const form = document.getElementById('contact-form');
     const successMessage = document.getElementById('form-success');
 
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
+    if (form) {
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        e.stopPropagation();
 
-      // Get form data
-      const formData = new FormData(form);
-      const data = {
-        name: formData.get('name'),
-        email: formData.get('email'),
-        phone: formData.get('phone'),
-        message: formData.get('message'),
-      };
+        const submitBtn = form.querySelector('button[type="submit"]');
+        const originalBtnText = submitBtn.innerHTML;
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = 'Lähetetään...';
 
-      try {
-        // Send to API endpoint
-        const response = await fetch('/api/contact', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(data),
-        });
+        // Get form data
+        const formData = new FormData(form);
+        const data = {
+          name: formData.get('name'),
+          email: formData.get('email'),
+          phone: formData.get('phone'),
+          message: formData.get('message'),
+        };
 
-        if (response.ok) {
-          successMessage.classList.add('show');
-          form.reset();
+        try {
+          // Send to API endpoint
+          const response = await fetch('/api/contact', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+          });
 
-          setTimeout(() => {
-            successMessage.classList.remove('show');
-          }, 5000);
-        } else {
-          const error = await response.json();
-          alert('Viestin lähettäminen epäonnistui: ' + (error.error || 'Tuntematon virhe'));
+          if (response.ok) {
+            successMessage.classList.add('show');
+            form.reset();
+
+            setTimeout(() => {
+              successMessage.classList.remove('show');
+            }, 5000);
+          } else {
+            const error = await response.json();
+            alert('Viestin lähettäminen epäonnistui: ' + (error.error || 'Tuntematon virhe'));
+          }
+        } catch (error) {
+          console.error('Form submission error:', error);
+          alert('Viestin lähettäminen epäonnistui. Yritä uudelleen.');
+        } finally {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = originalBtnText;
         }
       } catch (error) {
         console.error('Form submission error:', error);
         alert('Viestin lähettäminen epäonnistui. Yritä uudelleen.');
       }
     }); 
+
+        return false;
+      });
+    }
   </script>
 
   <!-- COOKIE BANNER -->
