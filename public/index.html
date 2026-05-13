@@ -1370,7 +1370,7 @@
           </div>
         </div>
         <div class="contact-form-wrapper">
-          <form class="contact-form" id="contact-form">
+          <form class="contact-form" id="contact-form" method="POST" action="/api/contact">
             <div class="form-group">
               <label for="name">Nimi</label>
               <input type="text" id="name" name="name" placeholder="Nimesi" required>
@@ -1495,59 +1495,68 @@
     statsObserver.observe(statsSection);
 
     // Form submission
-    const form = document.getElementById('contact-form');
-    const successMessage = document.getElementById('form-success');
+    function setupFormSubmission() {
+      const form = document.getElementById('contact-form');
+      const successMessage = document.getElementById('form-success');
 
-    if (form) {
-      form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        e.stopPropagation();
+      if (form) {
+        form.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          e.stopPropagation();
 
-        const submitBtn = form.querySelector('button[type="submit"]');
-        const originalBtnText = submitBtn.innerHTML;
-        submitBtn.disabled = true;
-        submitBtn.innerHTML = 'Lähetetään...';
+          const submitBtn = form.querySelector('button[type="submit"]');
+          const originalBtnText = submitBtn.innerHTML;
+          submitBtn.disabled = true;
+          submitBtn.innerHTML = 'Lähetetään...';
 
-        // Get form data
-        const formData = new FormData(form);
-        const data = {
-          name: formData.get('name'),
-          email: formData.get('email'),
-          phone: formData.get('phone'),
-          message: formData.get('message'),
-        };
+          // Get form data
+          const formData = new FormData(form);
+          const data = {
+            name: formData.get('name'),
+            email: formData.get('email'),
+            phone: formData.get('phone'),
+            message: formData.get('message'),
+          };
 
-        try {
-          // Send to API endpoint
-          const response = await fetch('/api/contact', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data),
-          });
+          try {
+            // Send to API endpoint
+            const response = await fetch('/api/contact', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(data),
+            });
 
-          if (response.ok) {
-            successMessage.classList.add('show');
-            form.reset();
+            if (response.ok) {
+              successMessage.classList.add('show');
+              form.reset();
 
-            setTimeout(() => {
-              successMessage.classList.remove('show');
-            }, 5000);
-          } else {
-            const error = await response.json();
-            alert('Viestin lähettäminen epäonnistui: ' + (error.error || 'Tuntematon virhe'));
+              setTimeout(() => {
+                successMessage.classList.remove('show');
+              }, 5000);
+            } else {
+              const error = await response.json();
+              alert('Viestin lähettäminen epäonnistui: ' + (error.error || 'Tuntematon virhe'));
+            }
+          } catch (error) {
+            console.error('Form submission error:', error);
+            alert('Viestin lähettäminen epäonnistui. Yritä uudelleen.');
+          } finally {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = originalBtnText;
           }
-        } catch (error) {
-          console.error('Form submission error:', error);
-          alert('Viestin lähettäminen epäonnistui. Yritä uudelleen.');
-        } finally {
-          submitBtn.disabled = false;
-          submitBtn.innerHTML = originalBtnText;
-        }
 
-        return false;
-      });
+          return false;
+        });
+      }
+    }
+
+    // Setup form submission when DOM is ready
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', setupFormSubmission);
+    } else {
+      setupFormSubmission();
     }
   </script>
 
