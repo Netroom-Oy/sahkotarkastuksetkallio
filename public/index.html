@@ -939,11 +939,11 @@
     .form-group textarea {
       resize: vertical;
       min-height: 140px;
-    }
-
-    .form-success {
-      display: none;
-      background: rgba(245, 196, 0, 0.1);
+  }
+  
+  .form-success {
+  display: none;
+  background: rgba(245, 196, 0, 0.1);
       border: 1px solid rgba(245, 196, 0, 0.3);
       border-radius: 8px;
       padding: 1.25rem;
@@ -951,11 +951,11 @@
       font-size: 0.9375rem;
       font-weight: 500;
       text-align: center;
-    }
-
-    .form-success.show {
-      display: block;
-    }
+  }
+  
+  .form-success.show {
+  display: block;
+  }
 
     /* FOOTER */
     .footer {
@@ -1288,7 +1288,7 @@
             <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
           </svg>
           <h3>Varmennustarkastukset</h3>
-          <p>Sähk��laitteiston rakentajan lakisääteinen velvoite yli 3x35A:n uudis- ja remonttikohteisiin 3 kk:n kuluessa
+          <p>Sähk����laitteiston rakentajan lakisääteinen velvoite yli 3x35A:n uudis- ja remonttikohteisiin 3 kk:n kuluessa
             käyttöönottotarkastuksen jälkeen.</p>
           <span class="service-link">
             Lue lisää
@@ -1370,7 +1370,7 @@
           </div>
         </div>
         <div class="contact-form-wrapper">
-          <form class="contact-form" id="contact-form" action="#contact" method="POST" onsubmit="return false;">
+          <form class="contact-form" id="contact-form">
             <div class="form-group">
               <label for="name">Nimi</label>
               <input type="text" id="name" name="name" placeholder="Nimesi" required>
@@ -1439,23 +1439,26 @@
     // Mobile menu toggle
     const hamburger = document.querySelector('.hamburger');
     const mobileMenu = document.getElementById('mobile-menu');
-    const mobileLinks = mobileMenu.querySelectorAll('a');
+    
+    if (hamburger && mobileMenu) {
+      const mobileLinks = mobileMenu.querySelectorAll('a');
 
-    hamburger.addEventListener('click', () => {
-      const isActive = hamburger.classList.toggle('active');
-      mobileMenu.classList.toggle('active');
-      hamburger.setAttribute('aria-expanded', isActive);
-      document.body.style.overflow = isActive ? 'hidden' : '';
-    });
-
-    mobileLinks.forEach(link => {
-      link.addEventListener('click', () => {
-        hamburger.classList.remove('active');
-        mobileMenu.classList.remove('active');
-        hamburger.setAttribute('aria-expanded', 'false');
-        document.body.style.overflow = '';
+      hamburger.addEventListener('click', () => {
+        const isActive = hamburger.classList.toggle('active');
+        mobileMenu.classList.toggle('active');
+        hamburger.setAttribute('aria-expanded', isActive);
+        document.body.style.overflow = isActive ? 'hidden' : '';
       });
-    });
+
+      mobileLinks.forEach(link => {
+        link.addEventListener('click', () => {
+          hamburger.classList.remove('active');
+          mobileMenu.classList.remove('active');
+          hamburger.setAttribute('aria-expanded', 'false');
+          document.body.style.overflow = '';
+        });
+      });
+    }
 
     // Count-up animation for stats
     const animateCountUp = (element, target, suffix = '') => {
