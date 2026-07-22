@@ -2,7 +2,7 @@ import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
 // Petri's admin email - only this user can access /admin
-const ADMIN_EMAIL = 'petri.kallio@xn--shktarkastuksetkallio-51b03b.fi'
+const ADMIN_EMAIL = 'petri.kallio@sahkotarkastuksetkallio.fi'
 
 export async function updateSession(request: NextRequest) {
   let supabaseResponse = NextResponse.next({
