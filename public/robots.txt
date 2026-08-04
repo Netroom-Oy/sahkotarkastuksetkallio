@@ -4,4 +4,4 @@ Disallow: /admin
 Disallow: /admin/
 Disallow: /api/
 
-Sitemap: https://www.xn--shtarkastuksetkallio-51b03b.fi/sitemap.xml
+Sitemap: https://www.sähkötarkastuksetkallio.fi/sitemap.xml
