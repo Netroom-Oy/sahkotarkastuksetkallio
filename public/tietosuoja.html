@@ -12,6 +12,19 @@
   <link rel="icon" type="image/jpeg" href="/favicon.jpg">
   <link rel="apple-touch-icon" href="/apple-icon.png">
 
+  <!-- SEO: canonical & robots -->
+  <link rel="canonical" href="https://www.xn--shtarkastuksetkallio-51b03b.fi/tietosuoja.html">
+  <meta name="robots" content="index, follow">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Sähkötarkastukset Kallio">
+  <meta property="og:locale" content="fi_FI">
+  <meta property="og:url" content="https://www.xn--shtarkastuksetkallio-51b03b.fi/tietosuoja.html">
+  <meta property="og:title" content="Tietosuoja | Sähkötarkastukset Kallio">
+  <meta property="og:description" content="Sähkötarkastukset Kallion tietosuojaseloste. Lue miten käsittelemme henkilötietojasi.">
+  <meta property="og:image" content="https://www.xn--shtarkastuksetkallio-51b03b.fi/og-image.png">
+
   <!-- Google Fonts - Async Load -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -542,13 +555,38 @@
           style="color: #8A9BA8; text-decoration: none; transition: color 0.2s;">NETROOM</a></div>
     </div>
   </footer>
-  <!-- Google Analytics - Moved to end of body for non-blocking load -->
-  <script defer src="https://www.googletagmanager.com/gtag/js?id=G-6NTCW8DKB9"></script>
-  <script defer>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
-    gtag('js', new Date());
-    gtag('config', 'G-6NTCW8DKB9');
+  <!-- Google Analytics - ladataan vain analytiikkasuostumuksella (GDPR) -->
+  <script>
+    (function () {
+      window.dataLayer = window.dataLayer || [];
+      function gtag() { dataLayer.push(arguments); }
+      window.gtag = gtag;
+
+      gtag('consent', 'default', { analytics_storage: 'denied' });
+
+      var GA_ID = 'G-6NTCW8DKB9';
+      var gaLoaded = false;
+
+      function loadGA() {
+        if (gaLoaded) return;
+        gaLoaded = true;
+        gtag('consent', 'update', { analytics_storage: 'granted' });
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
+        document.head.appendChild(s);
+        gtag('js', new Date());
+        gtag('config', GA_ID);
+      }
+
+      if (localStorage.getItem('cookie-consent') === 'all') {
+        loadGA();
+      }
+
+      window.addEventListener('cookieConsentChanged', function (e) {
+        if (e.detail === 'all') loadGA();
+      });
+    })();
   </script>
 </body>
 

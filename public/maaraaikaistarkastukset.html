@@ -12,6 +12,27 @@
   <link rel="icon" type="image/jpeg" href="/favicon.jpg">
   <link rel="apple-touch-icon" href="/apple-icon.png">
 
+  <!-- SEO: canonical & robots -->
+  <link rel="canonical" href="https://www.xn--shtarkastuksetkallio-51b03b.fi/maaraaikaistarkastukset.html">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Sähkötarkastukset Kallio">
+  <meta property="og:locale" content="fi_FI">
+  <meta property="og:url" content="https://www.xn--shtarkastuksetkallio-51b03b.fi/maaraaikaistarkastukset.html">
+  <meta property="og:title" content="Määräaikaistarkastukset | Sähkötarkastukset Kallio">
+  <meta property="og:description" content="Lakisääteiset sähkölaitteiston määräaikaistarkastukset koko Suomessa. Valtuutettu tarkastaja, nopea palvelu.">
+  <meta property="og:image" content="https://www.xn--shtarkastuksetkallio-51b03b.fi/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Määräaikaistarkastukset | Sähkötarkastukset Kallio">
+  <meta name="twitter:description" content="Lakisääteiset sähkölaitteiston määräaikaistarkastukset koko Suomessa. Valtuutettu tarkastaja, nopea palvelu.">
+  <meta name="twitter:image" content="https://www.xn--shtarkastuksetkallio-51b03b.fi/og-image.png">
+
   <!-- Google Analytics - moved to end of body for performance -->
   
 
@@ -1079,23 +1100,48 @@
       if (!localStorage.getItem('cookie-consent')) { banner.style.display = 'block'; }
       document.getElementById('cookie-close').addEventListener('click', function () { banner.style.display = 'none'; localStorage.setItem('cookie-consent', 'necessary'); });
       document.getElementById('cookie-necessary').addEventListener('click', function () { banner.style.display = 'none'; localStorage.setItem('cookie-consent', 'necessary'); });
-      document.getElementById('cookie-accept').addEventListener('click', function () { banner.style.display = 'none'; localStorage.setItem('cookie-consent', 'all'); });
+      document.getElementById('cookie-accept').addEventListener('click', function () { banner.style.display = 'none'; localStorage.setItem('cookie-consent', 'all'); window.dispatchEvent(new CustomEvent('cookieConsentChanged', { detail: 'all' })); });
       document.getElementById('cookie-customize').addEventListener('click', function () {
         var s = document.getElementById('cookie-settings'), r = document.getElementById('cookie-save-row'), open = s.style.display !== 'none';
         s.style.display = open ? 'none' : 'block'; r.style.display = open ? 'none' : 'block';
       });
       document.getElementById('cookie-save').addEventListener('click', function () {
-        banner.style.display = 'none'; localStorage.setItem('cookie-consent', document.getElementById('cookie-analytics').checked ? 'all' : 'necessary');
+        var a = document.getElementById('cookie-analytics').checked; banner.style.display = 'none'; localStorage.setItem('cookie-consent', a ? 'all' : 'necessary'); if (a) window.dispatchEvent(new CustomEvent('cookieConsentChanged', { detail: 'all' }));
       });
     })();
   </script>
-  <!-- Google Analytics - Moved to end of body for non-blocking load -->
-  <script defer src="https://www.googletagmanager.com/gtag/js?id=G-6NTCW8DKB9"></script>
-  <script defer>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
-    gtag('js', new Date());
-    gtag('config', 'G-6NTCW8DKB9');
+  <!-- Google Analytics - ladataan vain analytiikkasuostumuksella (GDPR) -->
+  <script>
+    (function () {
+      window.dataLayer = window.dataLayer || [];
+      function gtag() { dataLayer.push(arguments); }
+      window.gtag = gtag;
+
+      gtag('consent', 'default', { analytics_storage: 'denied' });
+
+      var GA_ID = 'G-6NTCW8DKB9';
+      var gaLoaded = false;
+
+      function loadGA() {
+        if (gaLoaded) return;
+        gaLoaded = true;
+        gtag('consent', 'update', { analytics_storage: 'granted' });
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
+        document.head.appendChild(s);
+        gtag('js', new Date());
+        gtag('config', GA_ID);
+      }
+
+      if (localStorage.getItem('cookie-consent') === 'all') {
+        loadGA();
+      }
+
+      window.addEventListener('cookieConsentChanged', function (e) {
+        if (e.detail === 'all') loadGA();
+      });
+    })();
   </script>
 </body>
 
