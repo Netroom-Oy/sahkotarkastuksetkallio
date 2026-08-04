@@ -1687,6 +1687,7 @@
       document.getElementById('cookie-accept').addEventListener('click', function () {
         banner.style.display = 'none';
         localStorage.setItem('cookie-consent', 'all');
+        window.dispatchEvent(new CustomEvent('cookieConsentChanged', { detail: 'all' }));
       });
       document.getElementById('cookie-customize').addEventListener('click', function () {
         var settings = document.getElementById('cookie-settings');
@@ -1699,16 +1700,45 @@
         var analytics = document.getElementById('cookie-analytics').checked;
         banner.style.display = 'none';
         localStorage.setItem('cookie-consent', analytics ? 'all' : 'necessary');
+        if (analytics) window.dispatchEvent(new CustomEvent('cookieConsentChanged', { detail: 'all' }));
       });
     })();
   </script>
-  <!-- Google Analytics - Moved to end of body for non-blocking load -->
-  <script defer src="https://www.googletagmanager.com/gtag/js?id=G-6NTCW8DKB9"></script>
-  <script defer>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
-    gtag('js', new Date());
-    gtag('config', 'G-6NTCW8DKB9');
+  <!-- Google Analytics - ladataan vain analytiikkasuostumuksella (GDPR) -->
+  <script>
+    (function () {
+      window.dataLayer = window.dataLayer || [];
+      function gtag() { dataLayer.push(arguments); }
+      window.gtag = gtag;
+
+      // Consent Mode v2: analytiikka evätty oletuksena ennen suostumusta
+      gtag('consent', 'default', { analytics_storage: 'denied' });
+
+      var GA_ID = 'G-6NTCW8DKB9';
+      var gaLoaded = false;
+
+      function loadGA() {
+        if (gaLoaded) return;
+        gaLoaded = true;
+        gtag('consent', 'update', { analytics_storage: 'granted' });
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
+        document.head.appendChild(s);
+        gtag('js', new Date());
+        gtag('config', GA_ID);
+      }
+
+      // Ladataan heti, jos käyttäjä on aiemmin hyväksynyt analytiikkaevästeet
+      if (localStorage.getItem('cookie-consent') === 'all') {
+        loadGA();
+      }
+
+      // Aktivoidaan heti, kun käyttäjä hyväksyy bannerissa (ilman sivun latausta)
+      window.addEventListener('cookieConsentChanged', function (e) {
+        if (e.detail === 'all') loadGA();
+      });
+    })();
   </script>
 </body>
 

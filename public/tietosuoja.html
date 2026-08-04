@@ -555,13 +555,38 @@
           style="color: #8A9BA8; text-decoration: none; transition: color 0.2s;">NETROOM</a></div>
     </div>
   </footer>
-  <!-- Google Analytics - Moved to end of body for non-blocking load -->
-  <script defer src="https://www.googletagmanager.com/gtag/js?id=G-6NTCW8DKB9"></script>
-  <script defer>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
-    gtag('js', new Date());
-    gtag('config', 'G-6NTCW8DKB9');
+  <!-- Google Analytics - ladataan vain analytiikkasuostumuksella (GDPR) -->
+  <script>
+    (function () {
+      window.dataLayer = window.dataLayer || [];
+      function gtag() { dataLayer.push(arguments); }
+      window.gtag = gtag;
+
+      gtag('consent', 'default', { analytics_storage: 'denied' });
+
+      var GA_ID = 'G-6NTCW8DKB9';
+      var gaLoaded = false;
+
+      function loadGA() {
+        if (gaLoaded) return;
+        gaLoaded = true;
+        gtag('consent', 'update', { analytics_storage: 'granted' });
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
+        document.head.appendChild(s);
+        gtag('js', new Date());
+        gtag('config', GA_ID);
+      }
+
+      if (localStorage.getItem('cookie-consent') === 'all') {
+        loadGA();
+      }
+
+      window.addEventListener('cookieConsentChanged', function (e) {
+        if (e.detail === 'all') loadGA();
+      });
+    })();
   </script>
 </body>
 
