@@ -6,12 +6,18 @@ import './globals.css'
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://www.xn--shtarkastuksetkallio-51b03b.fi'),
   title: 'Sähkötarkastukset Kallio | Luotettavat sähkötarkastukset',
   description: 'Sähkötarkastukset Kallio tarjoaa luotettavat sähkötarkastukset nopeasti ja ammattitaidolla. Palvelemme koko Varsinais-Suomea.',
   generator: 'v0.app',
   icons: {
     icon: '/favicon.jpg',
     apple: '/apple-icon.png',
+  },
+  // Admin-alue ja kirjautuminen pidetään pois hakuindeksistä
+  robots: {
+    index: false,
+    follow: false,
   },
 }
 
