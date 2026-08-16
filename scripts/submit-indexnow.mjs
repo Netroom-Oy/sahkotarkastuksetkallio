@@ -13,7 +13,7 @@ import { dirname, join } from "path"
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
 const HOST = "www.sähkötarkastuksetkallio.fi"
-const INDEXNOW_KEY = "9e7abe98f463485da231eda48f837566"
+const INDEXNOW_KEY = "6c49cd210a6c4d57bdbaa813b8d93d5f"
 const KEY_LOCATION = `https://${HOST}/${INDEXNOW_KEY}.txt`
 
 function getUrlsFromSitemap() {
