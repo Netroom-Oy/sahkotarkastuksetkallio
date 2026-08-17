@@ -28,6 +28,8 @@ const UNICODE_HOST = "www.sähkötarkastuksetkallio.fi"
 const HOST = new URL(`https://${UNICODE_HOST}/`).hostname
 
 const INDEXNOW_KEY = "9850dcd005314a2889330bbb508ff5ed"
+const HOST = "www.sähkötarkastuksetkallio.fi"
+const INDEXNOW_KEY = "6c49cd210a6c4d57bdbaa813b8d93d5f"
 const KEY_LOCATION = `https://${HOST}/${INDEXNOW_KEY}.txt`
 
 function getUrlsFromSitemap() {
