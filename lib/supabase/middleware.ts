@@ -1,8 +1,8 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
-// Petri's admin email - only this user can access /admin
-const ADMIN_EMAIL = 'petri.kallio@sahkotarkastuksetkallio.fi'
+// Only this user can access /admin - set via env var, not hardcoded
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL
 
 export async function updateSession(request: NextRequest) {
   let supabaseResponse = NextResponse.next({

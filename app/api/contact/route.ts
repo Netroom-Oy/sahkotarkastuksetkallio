@@ -4,8 +4,9 @@ import { NextRequest, NextResponse } from 'next/server'
 export async function POST(request: NextRequest) {
   try {
     const apiKey = process.env.RESEND_API_KEY
-    if (!apiKey) {
-      console.error('Contact form error: RESEND_API_KEY puuttuu')
+    const contactEmail = process.env.CONTACT_EMAIL
+    if (!apiKey || !contactEmail) {
+      console.error('Contact form error: RESEND_API_KEY tai CONTACT_EMAIL puuttuu')
       return NextResponse.json(
         { error: 'Sähköpostipalvelua ei ole määritetty' },
         { status: 500 }
@@ -27,7 +28,7 @@ export async function POST(request: NextRequest) {
     // Send email via Resend
     const result = await resend.emails.send({
       from: 'Sähkötarkastukset Kallio <petri.kallio@xn--shktarkastuksetkallio-51b03b.fi>',
-      to: 'petri.kallio@sahkotarkastuksetkallio.fi',
+      to: contactEmail,
       replyTo: email,
       subject: `Uusi yhteydenotto: ${name}`,
       html: `
