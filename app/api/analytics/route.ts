@@ -2,8 +2,9 @@ import { createClient } from "@/lib/supabase/server"
 import { NextResponse } from "next/server"
 import { createSign } from "crypto"
 
-const ADMIN_EMAIL = "petri.kallio@sahkotarkastuksetkallio.fi"
-const GA4_PROPERTY_ID = "532409803"
+// Only this user can access analytics - set via env vars, not hardcoded
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL
+const GA4_PROPERTY_ID = process.env.GA4_PROPERTY_ID
 const SITE_URL = "https://www.xn--shktarkastuksetkallio-51b03b.fi"
 
 async function getGoogleAccessToken(serviceAccountKey: any): Promise<string> {
@@ -169,10 +170,10 @@ export async function GET(request: Request) {
 
   const ga4KeyJson = process.env.GA4_SERVICE_ACCOUNT_KEY
 
-  if (!ga4KeyJson) {
+  if (!ga4KeyJson || !GA4_PROPERTY_ID) {
     return NextResponse.json({
       configured: false,
-      message: "GA4_SERVICE_ACCOUNT_KEY puuttuu.",
+      message: "GA4_SERVICE_ACCOUNT_KEY tai GA4_PROPERTY_ID puuttuu.",
       mockData: generateMockData(period),
     })
   }
